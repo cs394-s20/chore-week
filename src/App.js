@@ -16,7 +16,9 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          Chore Week
+          <p>an app to help roommates divide chores evenly amongst 
+          themselves in a scheduled manner</p>
         </a>
       </header>
     </div>
