@@ -17,8 +17,10 @@ function App() {
           rel="noopener noreferrer"
         >
           Chore Week
-          <p>an app to help roommates divide chores evenly amongst 
+          <p>An app to help roommates divide chores evenly amongst 
           themselves in a scheduled manner</p>
+          <p>Roomates will get points for doing their chores on time 
+          and there will be a scoreboard to see who has the most points!</p>
         </a>
       </header>
     </div>
