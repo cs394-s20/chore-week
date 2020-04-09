@@ -28,6 +28,12 @@ function App() {
           rel="noopener noreferrer">
         Click to see the Four panel of our APP
         </a>
+        <a className="Four-Panel"
+          href="https://docs.google.com/presentation/d/1wDOsMZnHowiffjFEJkpiY4qBnGocy4PLzwiORfH0l_g/edit#slide=id.g165e981b56_0_342"
+          target="_blank"
+          rel="noopener noreferrer">
+        Group Members: Xinzhe, Noah, Nyle, Jiazhe, Bella, Xinyu 
+        </a>
       </header>
     </div>
   );
