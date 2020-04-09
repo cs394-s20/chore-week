@@ -4,12 +4,9 @@ import './App.css';
 
 function App() {
   return (
-    <div className="App">
+    <div>
       <header className="App-header">
         <img src={laundry} className="App-logo" alt="folded clothes" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -33,6 +30,12 @@ function App() {
           target="_blank"
           rel="noopener noreferrer">
         Group Members: Xinzhe, Noah, Nyle, Jiazhe, Bella, Xinyu 
+        </a>
+        <a className="Four-Panel"
+           href="https://github.com/cs394-s20/chore-week"
+           target="_blank"
+           rel="noopener noreferrer">
+          GitHub Repository
         </a>
       </header>
     </div>
