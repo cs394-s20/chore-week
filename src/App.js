@@ -29,7 +29,7 @@ function App() {
           href="https://docs.google.com/presentation/d/1wDOsMZnHowiffjFEJkpiY4qBnGocy4PLzwiORfH0l_g/edit#slide=id.g165e981b56_0_342"
           target="_blank"
           rel="noopener noreferrer">
-        Group Members: Xinzhe, Noah, Nyle, Jiazhe, Bella, Xinyu 
+        Group Members: Xinzhe Du, Noah Alvarado, Nyle Arora, Jiazhe Liu, Bella Zhan, Xinyu Zhang
         </a>
         <a className="Four-Panel"
            href="https://github.com/cs394-s20/chore-week"
