@@ -1,17 +1,36 @@
 import React from 'react';
-import './App.css';
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-// import laundry from './laundry.jpeg';
+import { makeStyles } from '@material-ui/core/styles';
+import BottomNavigation from '@material-ui/core/BottomNavigation';
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import GroupIcon from '@material-ui/icons/Group';
+import PersonIcon from '@material-ui/icons/Person';
+import InsertChartIcon from '@material-ui/icons/InsertChart';
 
-function App() {
+const useStyles = makeStyles({
+  root: {
+    width: 500,
+  },
+});
+
+export default function SimpleBottomNavigation() {
+  const classes = useStyles();
+  const [value, setValue] = React.useState(0);
+
   return (
-      <div className="App-wrapper">
-        <Header/>
-        <div className="App-content"></div>
-        <Footer/>
-      </div>
+    <BottomNavigation
+      value={value}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
+      showLabels
+      className={classes.root}
+    >
+      <BottomNavigationAction label="Groups" icon={<GroupIcon />} />
+      <BottomNavigationAction label="Me" icon={<PersonIcon />} />
+      <BottomNavigationAction label="Scoreboard" icon={<InsertChartIcon />} />
+    </BottomNavigation>
   );
+}
   // return (
   //   <div>
   //     <header className="App-header">
@@ -49,6 +68,6 @@ function App() {
   //     </header>
   //   </div>
   // );
-}
 
-export default App;
+
+
