@@ -12,12 +12,14 @@ const chores = {
     todo: [
         {
             name: "laundry",
+            group: "personal",
             isDone: false,
             dueDate: soon,
             dateCompleted: null
         },
         {
             name: "dishes",
+            group: "1234 Garnett",
             isDone: false,
             dueDate: old,
             dateCompleted: null
@@ -26,6 +28,7 @@ const chores = {
     done: [
         {
             name: "sweep",
+            group: "1234 Garnett",
             isDone: true,
             dueDate: now,
             dateCompleted: old
