@@ -1,9 +1,17 @@
 import React from 'react';
+import Chore from "./Chore";
+import '../styles/ChoresList.css'
+import Typography from '@material-ui/core/Typography';
 
-function ChoresList() {
+const ChoresList = ({ title, chores }) => {
     return (
-        <p>chores list</p>
+        <div className="ChoresListWrapper">
+            <Typography variant="h4">{title}</Typography>
+            <React.Fragment>
+                { chores.map(chore => <Chore chore={chore}/>) }
+            </React.Fragment>
+        </div>
     );
-}
+};
 
 export default ChoresList;
