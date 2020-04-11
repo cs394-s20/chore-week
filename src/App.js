@@ -2,13 +2,16 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import ChoresList from "./components/ChoresList";
 // import laundry from './laundry.jpeg';
 
 function App() {
   return (
       <div className="App-wrapper">
         <Header/>
-        <div className="App-content"></div>
+        <div className="App-content">
+            <ChoresList/>
+        </div>
         <Footer/>
       </div>
   );
