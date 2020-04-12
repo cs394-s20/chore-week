@@ -2,15 +2,17 @@ import React from 'react';
 import './App.css';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-// import laundry from './laundry.jpeg';
+import SignIn from "./components/signin/signIn";
 
 function App() {
   return (
-      <div className="App-wrapper">
-        <Header/>
-        <div className="App-content"></div>
-        <Footer/>
+    <div className="App-wrapper">
+      <Header/>
+      <div className="App-content">
+        <SignIn />
       </div>
+      <Footer/>
+    </div>
   );
   // return (
   //   <div>
