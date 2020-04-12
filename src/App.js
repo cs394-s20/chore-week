@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SignIn from "./components/signin/SignIn";
+import SignIn from "./components/SignIn/SignIn";
 import ChoresList from "./components/ChoresList";
 import './App.css';
+import firebase from "./shared/firebase";
 
 const old = new Date(2020, 3, 4);
 const now = new Date();
@@ -38,19 +39,27 @@ const chores = {
 };
 
 function App() {
-  return (
-    <div className="App-wrapper">
-      <Header/>
-      <div className="App-content">
-        <SignIn/>
-        <ChoresList title="To Do"
-                    chores={chores.todo}/>
-        <ChoresList title="Done"
-                    chores={chores.done}/>
-      </div>
-      <Footer/>
-    </div>
-  );
+    const [chores, setChores] = useState(null);
+
+    return (
+        <div className="App-wrapper">
+            <Header/>
+            <div className="App-content">
+                {
+                    chores ?
+                        <React.Fragment>
+                            <ChoresList title="To Do"
+                                        chores={chores.todo}/>
+                            <ChoresList title="Done"
+                                        chores={chores.done}/>
+                        </React.Fragment>
+                        :
+                        <SignIn/>
+                }
+            </div>
+            <Footer/>
+        </div>
+    );
 }
 
 export default App;

@@ -10,7 +10,7 @@ const getDueColor = (chore) => {
 
 
 const Chore = ({ chore }) => {
-    const [checked, setChecked] = React.useState(false);
+    const [checked, setChecked] = React.useState(chore.isDone);
     const [dueColor, setDueColor] = React.useState(getDueColor(chore));
 
     const handleChange = () => {
