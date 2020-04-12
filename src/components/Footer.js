@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-function Footer() {
+export default function SimpleBottomNavigation() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -31,5 +31,3 @@ function Footer() {
     </BottomNavigation>
   );
 }
-
-export default Footer

@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignIn from "./components/signin/signIn";
 import ChoresList from "./components/ChoresList";
+import './App.css';
 
 const old = new Date(2020, 3, 4);
 const now = new Date();
