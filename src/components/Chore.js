@@ -1,15 +1,36 @@
 import React from "react";
 import '../styles/Chore.css'
-import Typography from '@material-ui/core/Typography';
-
+// import Typography from '@material-ui/core/Typography';
+import Checkbox from '@material-ui/core/Checkbox';
+import Grid from '@material-ui/core/Grid';
 
 const Chore = ({ chore }) => {
+    // const classes = useStyles();
+    const [checked, setChecked] = React.useState(false);
+
+    const handleChange = (event) => {
+        setChecked(event.target.checked);
+    };
     return (
         <div className="ChoreCard">
-            <Typography>{chore.name}</Typography>
-            <Typography>{chore.isDone ? 'done': 'not done'}</Typography>
-            <Typography>{chore.dueDate.toDateString()}</Typography>
-            <Typography>{chore.dateCompleted ? `completed ${chore.dateCompleted.toDateString()}` : 'not completed'}</Typography>
+            <Grid container>
+                <Grid item xs={2}>
+                    <Checkbox
+                            checked={checked}
+                            onChange={handleChange}
+                            inputProps={{'aria-label': 'primary checkbox'}}
+                    />
+                </Grid>
+                <Grid item xs>
+                    <div className="ChoreName">{chore.name}</div>
+                    {/*<Typography>{chore.isDone ? 'done': 'not done'}</Typography>*/}
+                    <div className="ChoreGroup">{chore.group}</div>
+                </Grid>
+                <Grid item xs={6}>
+                    <div className="DueDate">{"Due：" + chore.dueDate.toDateString()}</div>
+                    {/*<Typography>{chore.dateCompleted ? `completed ${chore.dateCompleted.toDateString()}` : 'not completed'}</Typography>*/}
+                </Grid>
+            </Grid>
         </div>
     );
 };
