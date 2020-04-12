@@ -12,7 +12,7 @@ const SignInPage = () => {
       }, []);
     return(
         <Container flexDirection='row'>
-            <div flexDirection = 'row' style={{display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
+            <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
                 <Typography variant='h2' flex='1'>ChoreWeek</Typography>
                 <img width='20%' src={logo} className="App-logo" alt="logo" style={{padding: 50}}/>
                 <SignIn flex = '1'/>
@@ -37,16 +37,5 @@ const SignIn = () => (
         firebaseAuth={firebase.auth()}
     />
     );
-
-// const Welcome = ({ user }) => (
-//     <Message color="info">
-//         <Message.Header>
-//         Welcome, {user.displayName}
-//         <Button primary onClick={() => firebase.auth().signOut()}>
-//             Log out
-//         </Button>
-//         </Message.Header>
-//     </Message>
-// );
 
 export default SignInPage;
