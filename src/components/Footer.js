@@ -8,7 +8,7 @@ import InsertChartIcon from '@material-ui/icons/InsertChart';
 
 const useStyles = makeStyles({
   root: {
-    width: 500,
+    flexGrow: 1,
   },
 });
 
