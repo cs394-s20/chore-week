@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import SignIn from "./components/SignIn/SignIn";
@@ -10,7 +10,7 @@ const old = new Date(2020, 3, 4);
 const now = new Date();
 const soon = new Date(2020, 3, 13);
 
-const chores = {
+const tempChores = {
     todo: [
         {
             name: "laundry",
@@ -39,14 +39,19 @@ const chores = {
 };
 
 function App() {
-    const [chores, setChores] = useState(null);
+    const [chores, setChores] = useState({ todo: [], done: [] });
+    const [user, setUser] = useState(firebase.auth().currentUser);
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged(setUser);
+    }, []);
 
     return (
         <div className="App-wrapper">
             <Header/>
             <div className="App-content">
                 {
-                    chores ?
+                    user ?
                         <React.Fragment>
                             <ChoresList title="To Do"
                                         chores={chores.todo}/>
