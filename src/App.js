@@ -41,7 +41,7 @@ function App() {
     <div className="App-wrapper">
       <Header/>
       <div className="App-content">
-        <SignIn/>
+        {/*<SignIn/>*/}
         <ChoresList title="To Do"
                     chores={chores.todo}/>
         <ChoresList title="Done"
