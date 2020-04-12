@@ -6,40 +6,7 @@ import ChoresList from "./components/ChoresList";
 import './App.css';
 import firebase from "./shared/firebase";
 
-const old = new Date(2020, 3, 4);
-const now = new Date();
-const soon = new Date(2020, 3, 13);
-
-const tempChores = {
-    todo: [
-        {
-            name: "laundry",
-            group: "personal",
-            isDone: false,
-            dueDate: soon,
-            dateCompleted: null
-        },
-        {
-            name: "dishes",
-            group: "1234 Garnett",
-            isDone: false,
-            dueDate: old,
-            dateCompleted: null
-        }
-    ],
-    done: [
-        {
-            name: "sweep",
-            group: "1234 Garnett",
-            isDone: true,
-            dueDate: now,
-            dateCompleted: old
-        }
-    ]
-};
-
 function App() {
-    const [chores, setChores] = useState({ todo: [], done: [] });
     const [user, setUser] = useState(firebase.auth().currentUser);
 
     useEffect(() => {
@@ -52,12 +19,7 @@ function App() {
             <div className="App-content">
                 {
                     user ?
-                        <React.Fragment>
-                            <ChoresList title="To Do"
-                                        chores={chores.todo}/>
-                            <ChoresList title="Done"
-                                        chores={chores.done}/>
-                        </React.Fragment>
+                        <ChoresList user={user}/>
                         :
                         <SignIn/>
                 }
