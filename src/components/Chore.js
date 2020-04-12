@@ -9,7 +9,9 @@ const Chore = ({ chore }) => {
     const [checked, setChecked] = React.useState(false);
 
     const handleChange = (event) => {
-        setChecked(event.target.checked);
+        //write database
+        //chore.isDone = !checked
+        setChecked(!checked);
     };
     return (
         <div className="ChoreCard">
@@ -22,7 +24,9 @@ const Chore = ({ chore }) => {
                     />
                 </Grid>
                 <Grid item xs>
-                    <div className="ChoreName">{chore.name}</div>
+                    <div className="ChoreName">
+                        {chore.name}
+                    </div>
                     {/*<Typography>{chore.isDone ? 'done': 'not done'}</Typography>*/}
                     <div className="ChoreGroup">{chore.group}</div>
                 </Grid>
