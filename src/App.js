@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import SignIn from "./components/signin/signIn";
+import SignIn from "./components/signin/SignIn";
 import ChoresList from "./components/ChoresList";
 
 const old = new Date(2020, 3, 4);
@@ -41,7 +41,7 @@ function App() {
     <div className="App-wrapper">
       <Header/>
       <div className="App-content">
-        {/*<SignIn/>*/}
+        <SignIn/>
         <ChoresList title="To Do"
                     chores={chores.todo}/>
         <ChoresList title="Done"

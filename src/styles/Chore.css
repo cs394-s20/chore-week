@@ -23,8 +23,19 @@
 .DueDate {
     font-size: 15px;
     padding: 0.3em;
-    background-color: red;
     display: flex;
-    margin: 4px 0px;
+    margin: 4px 0;
     border-radius: 8px;
+}
+
+.Overdue {
+    background-color: rgba(245, 73, 47, 0.8);
+}
+
+.Due {
+    background-color: rgba(255, 242, 0, 0.8);
+}
+
+.Completed {
+    background-color: rgba(64, 230, 18, 0.8);
 }

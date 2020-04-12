@@ -1,15 +1,26 @@
 import React, {useState, useEffect} from 'react';
 import firebase from '../../shared/firebase.js';
-import {Button, Container, Typography} from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
 
+const uiConfig = {
+    signInFlow: 'popup',
+    signInOptions: [
+        firebase.auth.GoogleAuthProvider.PROVIDER_ID
+    ],
+    callbacks: {
+        signInSuccessWithAuthResult: () => false
+    }
+};
 
 const SignInPage = () => {
     const [user, setUser] = useState(null);
+
     useEffect(() => {
         firebase.auth().onAuthStateChanged(setUser);
       }, []);
+
     return(
         <Container flexDirection='row'>
             <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
@@ -19,17 +30,7 @@ const SignInPage = () => {
             </div>
         </Container>
     )
-}
-
-const uiConfig = {
-    signInFlow: 'popup',
-    signInOptions: [
-      firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-      signInSuccessWithAuthResult: () => false
-    }
-  };
+};
 
 const SignIn = () => (
     <StyledFirebaseAuth
