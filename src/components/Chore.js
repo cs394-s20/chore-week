@@ -1,12 +1,12 @@
 import React from "react";
+import firebase from "../shared/firebase";
 import '../styles/Chore.css'
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import { ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction } from "@material-ui/core";
 import QueryBuilderOutlinedIcon from '@material-ui/icons/QueryBuilderOutlined';
+
+const db = firebase.database().ref();
 
 const getDueColor = (chore) => {
     let color = { backgroundColor: 'rgba(64, 230, 18, 0.8)' };
@@ -17,8 +17,19 @@ const getDueColor = (chore) => {
     return color;
 };
 
+const updateChore = (uid, chore) => {
+    if (chore.isDone) {
+        const now = new Date();
+        db.child('users').child(uid).child(chore.name).update({dateCompleted: now.toString()})
+            .catch(error => alert(error));
+    }
+    else {
+        db.child('users').child(uid).child(chore.name).child("dateCompleted").remove()
+            .catch(error => alert(error));
+    }
+};
 
-const Chore = ({chore}) => {
+const Chore = ({ uid, chore }) => {
     const [checked, setChecked] = React.useState(chore.isDone);
     const [dueColor, setDueColor] = React.useState(getDueColor(chore));
 
@@ -27,7 +38,7 @@ const Chore = ({chore}) => {
         setChecked(!checked);
         setDueColor(getDueColor(chore));
 
-        // update firebase
+        updateChore(uid, chore);
     };
 
     return (
@@ -48,28 +59,6 @@ const Chore = ({chore}) => {
                 />
             </ListItemSecondaryAction>
         </ListItem>
-
-        // <div className="ChoreCard">
-        //     <Grid container>
-        //         <Grid item xs={2}>
-        //             <Checkbox checked={checked}
-        //                       onChange={handleChange}
-        //                       inputProps={{'aria-label': 'primary checkbox'}}
-        //             />
-        //         </Grid>
-        //         <Grid item xs>
-        //             <div className="ChoreName">
-        //                 {chore.name}
-        //             </div>
-        //             <div className="ChoreGroup">{chore.group}</div>
-        //         </Grid>
-        //         <Grid item xs={6}>
-        //             <div className={`DueDate ${dueColor}`}>
-        //                 {"Due：" + chore.dueDate.toDateString()}
-        //             </div>
-        //         </Grid>
-        //     </Grid>
-        // </div>
     );
 };
 

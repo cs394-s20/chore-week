@@ -6,6 +6,11 @@
     justify-content: center;
 }
 
+.ListSpacer {
+    width: 100%;
+    height: 24px;
+}
+
 .list-root {
     width: 100%;
 }

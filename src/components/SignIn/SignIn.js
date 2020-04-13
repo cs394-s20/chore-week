@@ -1,8 +1,8 @@
 import React from 'react';
 import firebase from '../../shared/firebase.js';
-import { Container, Typography } from '@material-ui/core';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
+import '../../styles/SignIn.css';
 
 const uiConfig = {
     signInFlow: 'popup',
@@ -23,13 +23,15 @@ const SignIn = () => (
 
 const SignInPage = () => {
     return (
-        <Container flexDirection='row'>
-            <div style={{display: 'flex', flexDirection: 'column', justifyContent:'center', alignItems:'center'}}>
-                <Typography variant='h2' flex='1'>ChoreWeek</Typography>
-                <img width='20%' src={logo} className="App-logo" alt="logo" style={{padding: 50}}/>
-                <SignIn flex='1'/>
+        <div className="PositionWrap">
+            <div className="SignInWrapper">
+                <div className="AppName">ChoreWeek</div>
+                <div className="LogoWrap">
+                    <img src={logo} className="App-logo" alt="logo"/>
+                </div>
+                <SignIn/>
             </div>
-        </Container>
+        </div>
     );
 };
 

@@ -41,18 +41,24 @@ const ChoresList = ({user}) => {
     return (
         <div className="ChoresListWrapper">
 
-            <Typography variant="h4">To Do</Typography>
+            <div className="ListSpacer"/>
+
+            <Typography variant="h4" style={{marginLeft: 8}}>To Do</Typography>
             <List className="list-root">
                 <React.Fragment>
                     {chores.todo.map(chore => <Chore key={chore.name}
+                                                     uid={user.uid}
                                                      chore={chore}/>)}
                 </React.Fragment>
             </List>
 
-            <Typography variant="h4">Done</Typography>
+            <div className="ListSpacer"/>
+
+            <Typography variant="h4" style={{marginLeft: 8}}>Done</Typography>
             <List className="list-root">
                 <React.Fragment>
                     {chores.done.map(chore => <Chore key={chore.name}
+                                                     uid={user.uid}
                                                      chore={chore}/>)}
                 </React.Fragment>
             </List>
