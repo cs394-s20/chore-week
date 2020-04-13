@@ -1,6 +1,5 @@
 import React from 'react';
 import firebase from '../../shared/firebase.js';
-import {Container, Typography} from '@material-ui/core';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
 import '../../styles/SignIn.css';
