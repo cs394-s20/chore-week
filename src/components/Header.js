@@ -67,6 +67,7 @@ function Header() {
                                         aria-haspopup="true"
                                         onClick={handleMenu}
                                         color="inherit"
+                                        disabled
                                     >
                                         <PersonOutlineIcon/>
                                     </IconButton>
