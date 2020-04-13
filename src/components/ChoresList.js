@@ -45,6 +45,7 @@ const ChoresList = ({user}) => {
             <List className="list-root">
                 <React.Fragment>
                     {chores.todo.map(chore => <Chore key={chore.name}
+                                                     uid={user.uid}
                                                      chore={chore}/>)}
                 </React.Fragment>
             </List>
@@ -53,6 +54,7 @@ const ChoresList = ({user}) => {
             <List className="list-root">
                 <React.Fragment>
                     {chores.done.map(chore => <Chore key={chore.name}
+                                                     uid={user.uid}
                                                      chore={chore}/>)}
                 </React.Fragment>
             </List>
