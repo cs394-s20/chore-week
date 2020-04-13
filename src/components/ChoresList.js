@@ -57,18 +57,6 @@ const ChoresList = ({user}) => {
                 </React.Fragment>
             </List>
 
-            {/*<Typography variant="h4">To Do</Typography>*/}
-            {/*<React.Fragment>*/}
-            {/*    { chores.todo.map(chore => <Chore key={chore.name}*/}
-            {/*                                      chore={chore}/>) }*/}
-            {/*</React.Fragment>*/}
-
-            {/*<Typography variant="h4">Done</Typography>*/}
-            {/*<React.Fragment>*/}
-            {/*    { chores.done.map(chore => <Chore key={chore.name}*/}
-            {/*                                      chore={chore}/>) }*/}
-            {/*</React.Fragment>*/}
-
         </div>
     );
 };
