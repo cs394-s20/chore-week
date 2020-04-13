@@ -14,7 +14,7 @@ const useStyles = makeStyles({
 
 export default function SimpleBottomNavigation() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   return (
     <BottomNavigation
@@ -25,9 +25,9 @@ export default function SimpleBottomNavigation() {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="Groups" icon={<GroupIcon />} />
+      <BottomNavigationAction label="Groups" icon={<GroupIcon />} disabled />
       <BottomNavigationAction label="Me" icon={<PersonIcon />} />
-      <BottomNavigationAction label="Scoreboard" icon={<InsertChartIcon />} />
+      <BottomNavigationAction label="Scoreboard" icon={<InsertChartIcon />} disabled />
     </BottomNavigation>
   );
 }
