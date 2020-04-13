@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import firebase from "../shared/firebase";
 import Chore from "./Chore";
 import '../styles/ChoresList.css'
-import Typography from '@material-ui/core/Typography';
+import List from '@material-ui/core/List';
+import Typography from "@material-ui/core/Typography";
 
 const db = firebase.database().ref();
 
@@ -36,16 +37,32 @@ const ChoresList = ({ user }) => {
         <div className="ChoresListWrapper">
 
             <Typography variant="h4">To Do</Typography>
-            <React.Fragment>
-                { chores.todo.map(chore => <Chore key={chore.name}
-                                                  chore={chore}/>) }
-            </React.Fragment>
+            <List className="list-root">
+                <React.Fragment>
+                    { chores.todo.map(chore => <Chore key={chore.name}
+                                                      chore={chore}/>) }
+                </React.Fragment>
+            </List>
 
             <Typography variant="h4">Done</Typography>
-            <React.Fragment>
-                { chores.done.map(chore => <Chore key={chore.name}
-                                                  chore={chore}/>) }
-            </React.Fragment>
+            <List className="list-root">
+                <React.Fragment>
+                    { chores.done.map(chore => <Chore key={chore.name}
+                                                      chore={chore}/>) }
+                </React.Fragment>
+            </List>
+
+            {/*<Typography variant="h4">To Do</Typography>*/}
+            {/*<React.Fragment>*/}
+            {/*    { chores.todo.map(chore => <Chore key={chore.name}*/}
+            {/*                                      chore={chore}/>) }*/}
+            {/*</React.Fragment>*/}
+
+            {/*<Typography variant="h4">Done</Typography>*/}
+            {/*<React.Fragment>*/}
+            {/*    { chores.done.map(chore => <Chore key={chore.name}*/}
+            {/*                                      chore={chore}/>) }*/}
+            {/*</React.Fragment>*/}
 
         </div>
     );
