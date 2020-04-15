@@ -1,7 +1,6 @@
 import React, {useState} from "react";
 import '../styles/AddChore.css';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, List, ListItem, MenuItem, Select, TextField } from "@material-ui/core";
-
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 
 // TODO: Get groups from firebase
 const getGroups = () => ['personal'];
