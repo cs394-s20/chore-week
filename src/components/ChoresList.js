@@ -4,6 +4,7 @@ import Chore from "./Chore";
 import '../styles/ChoresList.css'
 import List from '@material-ui/core/List';
 import Typography from "@material-ui/core/Typography";
+import AddChore from "./AddChore";
 
 const db = firebase.database().ref();
 
@@ -62,6 +63,9 @@ const ChoresList = ({user}) => {
                                                      chore={chore}/>)}
                 </React.Fragment>
             </List>
+
+            <div className="ListSpacer"/>
+            <AddChore/>
 
         </div>
     );
