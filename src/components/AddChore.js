@@ -14,14 +14,19 @@ const db = firebase.database().ref();
 
 // TODO: Get groups from firebase
 
-const addGroups = (uid, data) => Object.entries(data.groups).map(entry => entry[0]);
+const addGroups = (uid, data) => {
+  return ['personal', ...Object.entries(data.groups).filter(
+    entry => Object.keys(entry[1]).some(id => id === uid)).map(
+      entry => entry[0]
+  )]
+}
 
 
 const AddChore = ({uid}) => {
     const [open, setOpen] = useState(false);
     const [groups, setGroups] = useState(['personal']);
     const [name, setName] = useState('New Chore');
-    const [dueDate, setDueDate] = useState(new Date('2014-08-18T21:11:54'));
+    const [dueDate, setDueDate] = useState(new Date());
     const [group, setGroup] = useState('personal');
 
     const handleClickOpen = () => {
@@ -35,12 +40,16 @@ const AddChore = ({uid}) => {
     const handleSave = () => {
         const chore = {
             name: name,
-            dueDate: dueDate.toString(),
+            dueDate: dueDate,
             group: group
         };
 
+        chore.dueDate.setHours(23)
+        chore.dueDate.setMinutes(59)
+        chore.dueDute = chore.dueDate.toString()
+
         // console.log(chore);
-        db.child('users').child(uid).set(
+        db.child('users').child(uid).update(
           {[chore.name]:
             {dueDate:chore.dueDate, group: chore.group}}).catch(error => alert(error));
         setOpen(false);
@@ -68,10 +77,6 @@ const AddChore = ({uid}) => {
             uid
         ]);
 
-    const handleDateChange = (event) => {
-      setDueDate(event.target.value);
-    }
-
     return (
         <div>
             <Button color="primary" onClick={handleClickOpen}>Add Chore</Button>
@@ -93,7 +98,7 @@ const AddChore = ({uid}) => {
                              id="date-picker-inline"
                              label="Date picker inline"
                              value={dueDate}
-                             onChange={handleDateChange}
+                             onChange={setDueDate}
                              KeyboardButtonProps={{
                                'aria-label': 'change date',
                              }}

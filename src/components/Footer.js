@@ -25,9 +25,9 @@ export default function SimpleBottomNavigation() {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="Groups" icon={<GroupIcon />} disabled />
+      <BottomNavigationAction style = {{display: 'none'}} label="Groups" icon={<GroupIcon />} disabled />
       <BottomNavigationAction label="Me" icon={<PersonIcon />} />
-      <BottomNavigationAction label="Scoreboard" icon={<InsertChartIcon />} disabled />
+      <BottomNavigationAction style={{display: 'none'}} label="Scoreboard" icon={<InsertChartIcon />} disabled />
     </BottomNavigation>
   );
 }

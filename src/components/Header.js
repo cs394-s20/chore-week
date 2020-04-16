@@ -68,6 +68,7 @@ function Header() {
                                         onClick={handleMenu}
                                         color="inherit"
                                         disabled
+                                        style={{display: 'none'}}
                                     >
                                         <PersonOutlineIcon/>
                                     </IconButton>
