@@ -67,12 +67,7 @@ const ChoresList = ({user}) => {
             </List>
 
             <div className="ListSpacer"/>
-<<<<<<< Updated upstream
             <AddChore uid={user.uid}/>
-=======
-            <AddChore />
->>>>>>> Stashed changes
-
         </div>
     );
 };
