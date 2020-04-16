@@ -23,7 +23,13 @@ const SignInPage = () => {
                 const uid = result.user.uid;
                 const exist = users.some(user => user === uid);
                 if (!exist) {
-                    db.child("users").update({[uid]: "null"}).catch(error => alert(error));
+                    console.log(`adding ${uid}`);
+                    db.child("users").child(`${uid}`).set({
+                        ignoreThisChore: {
+                            name: 'not a chore',
+                            dueDate: Date.now().toString()
+                        }
+                    }).catch(error => alert(error));
                 }
                 console.log(`user ${uid} exist: ${exist}`);
                 return false;
