@@ -1,27 +1,55 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import firebase from '../../shared/firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
 import '../../styles/SignIn.css';
 
-const uiConfig = {
-    signInFlow: 'popup',
-    signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID
-    ],
-    callbacks: {
-        signInSuccessWithAuthResult: () => false
-    }
-};
+const db = firebase.database().ref();
 
-const SignIn = () => (
-    <StyledFirebaseAuth
-        uiConfig={uiConfig}
-        firebaseAuth={firebase.auth()}
-    />
-);
+const addUsers = (data) => {
+    return Object.entries(data.users).map(entry => entry[0]);
+}
 
 const SignInPage = () => {
+    const [users, setUsers] = useState([]);
+
+    const uiConfig = {
+        signInFlow: 'popup',
+        signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+        ],
+        callbacks: {
+            signInSuccessWithAuthResult: (result) => {
+                const uid = result.user.uid;
+                const exist = users.some(user => user === uid);
+                if (!exist) {
+                    db.child("users").child(uid).update([""]);
+                }
+                return false;
+            }
+        }
+    };
+
+    const SignIn = () => (
+        <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
+        />
+    );
+
+    useEffect(() => {
+            const handleData = snap => {
+                if (snap.val()) setUsers(addUsers(snap.val()));
+            };
+
+            db.on('value', handleData, error => alert(error));
+            return () => {
+                db.off('value', handleData);
+            };
+        },
+        [
+        ]);
+
     return (
         <div className="PositionWrap">
             <div className="SignInWrapper">

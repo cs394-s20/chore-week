@@ -21,7 +21,7 @@ function App() {
                     user ?
                         <ChoresList user={user}/>
                         :
-                        <SignIn/>
+                        <SignIn uid={user ? user.uid : null}/>
                 }
             </div>
             <Footer/>
