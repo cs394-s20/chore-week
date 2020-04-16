@@ -9,7 +9,9 @@ import AddChore from "./AddChore";
 const db = firebase.database().ref();
 
 const addChores = (uid, data) => {
-    const chores = Object.entries(data.users[uid]).map(entry => ({
+    let chores = Object.entries(data.users[uid]);
+    chores = chores.filter(chore => chore[0] !== "ignoreThisChore");
+    chores = chores.map(entry => ({
         name: entry[0],
         group: entry[1].group,
         dueDate: new Date(entry[1].dueDate),
