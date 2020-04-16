@@ -6,6 +6,7 @@ import ChoresList from "./components/ChoresList";
 import './App.css';
 import firebase from "./shared/firebase";
 
+
 function App() {
     const [user, setUser] = useState(firebase.auth().currentUser);
 
@@ -21,7 +22,11 @@ function App() {
                     user ?
                         <ChoresList user={user}/>
                         :
+<<<<<<< Updated upstream
                         <SignIn uid={user ? user.uid : null}/>
+=======
+                        <SignIn />
+>>>>>>> Stashed changes
                 }
             </div>
             <Footer/>

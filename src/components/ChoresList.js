@@ -25,9 +25,9 @@ const addChores = (uid, data) => {
 };
 
 const ChoresList = ({user}) => {
-    const [chores, setChores] = useState({todo: [], done: []});
+  const [chores, setChores] = useState({todo: [], done: []});
 
-    useEffect(() => {
+  useEffect(() => {
             const handleData = snap => {
                 if (snap.val()) setChores(addChores(user.uid, snap.val()));
             };
@@ -67,7 +67,11 @@ const ChoresList = ({user}) => {
             </List>
 
             <div className="ListSpacer"/>
+<<<<<<< Updated upstream
             <AddChore uid={user.uid}/>
+=======
+            <AddChore />
+>>>>>>> Stashed changes
 
         </div>
     );
