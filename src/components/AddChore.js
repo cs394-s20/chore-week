@@ -1,13 +1,21 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import '../styles/AddChore.css';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
+import firebase from "../shared/firebase";
+const db = firebase.database().ref();
 
 // TODO: Get groups from firebase
-const getGroups = () => ['personal'];
 
-const AddChore = () => {
+const addGroups = (uid, data) => {
+    const allGroups = Object.entries(data.groups)
+    console.log(allGroups);
+    return ['personal'];
+};
+
+
+const AddChore = ({uid}) => {
     const [open, setOpen] = useState(false);
-
+    const [groups, setGroups] = useState(['personal']);
     const [name, setName] = useState('New Chore');
     const [dueDate, setDueDate] = useState(Date.now());
     const [group, setGroup] = useState('personal');
@@ -39,6 +47,20 @@ const AddChore = () => {
         setGroup(event.target.value);
     };
 
+    useEffect(() => {
+            const handleData = snap => {
+                if (snap.val()) setGroups(addGroups(uid, snap.val()));
+            };
+
+            db.on('value', handleData, error => alert(error));
+            return () => {
+                db.off('value', handleData);
+            };
+        },
+        [
+            uid
+        ]);
+
     return (
         <div>
             <Button color="primary" onClick={handleClickOpen}>Add Chore</Button>
@@ -58,7 +80,7 @@ const AddChore = () => {
                                     onChange={handleGroupChange}
                             >
                                 {
-                                    getGroups().map(group => (
+                                    groups.map(group => (
                                         <MenuItem key={group} value={group}>{group}</MenuItem>
                                     ))
                                 }

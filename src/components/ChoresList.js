@@ -65,7 +65,7 @@ const ChoresList = ({user}) => {
             </List>
 
             <div className="ListSpacer"/>
-            <AddChore/>
+            <AddChore uid={user.uid}/>
 
         </div>
     );
