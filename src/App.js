@@ -22,11 +22,8 @@ function App() {
                     user ?
                         <ChoresList user={user}/>
                         :
-<<<<<<< Updated upstream
+
                         <SignIn uid={user ? user.uid : null}/>
-=======
-                        <SignIn />
->>>>>>> Stashed changes
                 }
             </div>
             <Footer/>
