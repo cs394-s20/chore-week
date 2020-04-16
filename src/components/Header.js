@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import '../styles/Header.css';
 import firebase from "../shared/firebase";
-import {makeStyles, withStyles} from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -30,7 +31,6 @@ const logout = () => {
 };
 
 function Header() {
-    const classes = useStyles();
     const [user, setUser] = useState(firebase.auth().currentUser);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
@@ -54,7 +54,7 @@ function Header() {
     })(Typography);
 
     return (
-        <div className={classes.root}>
+        <div className="header-root">
             <AppBar position="static">
                 <Toolbar>
                     <Grid container spacing={3}>
@@ -76,7 +76,7 @@ function Header() {
                             )}
                         </Grid>
                         <Grid item xs>
-                            <StyleTypography variant="h6" className={classes.title} align="center">
+                            <StyleTypography variant="h6" className="header-title" align="center">
                                 ChoreWeek
                             </StyleTypography>
                         </Grid>
