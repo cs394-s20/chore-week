@@ -31,7 +31,6 @@ const SignInPage = () => {
                         }
                     }).catch(error => alert(error));
                 }
-                console.log(`user ${uid} exist: ${exist}`);
                 return false;
             }
         }

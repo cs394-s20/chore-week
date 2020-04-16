@@ -6,11 +6,7 @@ const db = firebase.database().ref();
 
 // TODO: Get groups from firebase
 
-const addGroups = (uid, data) => {
-    const allGroups = Object.entries(data.groups)
-    console.log(allGroups);
-    return ['personal'];
-};
+const addGroups = (uid, data) => Object.entries(data.groups).map(entry => entry[0]);
 
 
 const AddChore = ({uid}) => {
