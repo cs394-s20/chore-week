@@ -8,7 +8,7 @@ const db = firebase.database().ref();
 
 const addUsers = (data) => {
     return Object.entries(data.users).map(entry => entry[0]);
-}
+};
 
 const SignInPage = () => {
     const [users, setUsers] = useState([]);
