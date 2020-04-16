@@ -23,8 +23,9 @@ const SignInPage = () => {
                 const uid = result.user.uid;
                 const exist = users.some(user => user === uid);
                 if (!exist) {
-                    db.child("users").child(uid).update([""]);
+                    db.child("users").update({[uid]: "null"}).catch(error => alert(error));
                 }
+                console.log(`user ${uid} exist: ${exist}`);
                 return false;
             }
         }

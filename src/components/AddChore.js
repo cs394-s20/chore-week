@@ -35,7 +35,6 @@ const AddChore = ({uid}) => {
             group: group
         };
 
-        console.log(chore);
         setOpen(false);
     };
 
