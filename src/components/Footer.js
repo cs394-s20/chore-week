@@ -23,7 +23,7 @@ export default function SimpleBottomNavigation(tabswitch) {
       showLabels
       className="footer-nav"
     >
-      <BottomNavigationAction label="Groups" icon={<GroupIcon />} disabled />
+      <BottomNavigationAction label="Groups" icon={<GroupIcon />} />
       <BottomNavigationAction label="Me" icon={<PersonIcon />} />
       <BottomNavigationAction style={{display: 'none'}} label="Scoreboard" icon={<InsertChartIcon />} disabled />
     </BottomNavigation>

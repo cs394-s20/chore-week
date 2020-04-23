@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from 'react';
 import firebase from "../shared/firebase";
-import {Grid} from "@material-ui/core"
+import {Grid, Paper} from "@material-ui/core"
+import '../styles/GroupsList.css';
+
+
 const db = firebase.database().ref();
 
+
 const addGroups = (uid, data) => {
-    return ['personal', ...Object.entries(data.groups).filter(
-        entry => Object.keys(entry[1]).some(id => id === uid)).map(
-        entry => entry[0]
-    )]
+    const array = ['personal', ...Object.entries(data.groups).filter(
+        ([gid, group]) => {
+            return(Object.values(group)[0].includes(uid))
+        }
+    ).map(([gid, group]) => Object.keys(group)[0])]
+    return(array)
 }
 
-const GroupsList = (uid) => {
+const GroupsList = ({uid}) => {
     const [groups, setGroups] = useState([]);
     useEffect(() => {
             const handleData = snap => {
@@ -26,11 +32,11 @@ const GroupsList = (uid) => {
             uid
         ]);
     return (
-        <div>
-            <Grid container direction="row" justify="flex-start" align-items="flex-start">
+        <div className='GridWrapper'>
+            <Grid container justify="center" align-items="flex-start" spacing={3}>
                 <React.Fragment>
                     {groups.map((group) => {
-                        return (<Group group={group} key={group.name} xs={6}/>)
+                        return (<Group group={group} key={group}/>)
                     })}
                 </React.Fragment>
             </Grid>
@@ -38,11 +44,13 @@ const GroupsList = (uid) => {
     )
 }
 
-const Group = (group) => {
+const Group = ({group}) => {
     return (
-        <div>
-            {group.name}
-        </div>
+        <Grid item xs={6}>
+            <Paper className='card'>
+                {group}
+            </Paper>
+        </Grid>
     )
 }
 

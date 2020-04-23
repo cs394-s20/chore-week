@@ -6,19 +6,18 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import Grid from '@material-ui/core/Grid';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
 const db = firebase.database().ref();
 
-// TODO: Get groups from firebase
-
 const addGroups = (uid, data) => {
-  return ['personal', ...Object.entries(data.groups).filter(
-    entry => Object.keys(entry[1]).some(id => id === uid)).map(
-      entry => entry[0]
-  )]
+    const array = ['personal', ...Object.entries(data.groups).filter(
+        ([gid, group]) => {
+            return(Object.values(group)[0].includes(uid))
+        }
+    ).map(([gid, group]) => Object.keys(group)[0])]
+    return(array)
 }
 
 
