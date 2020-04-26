@@ -2,22 +2,34 @@ import React, {useEffect, useState} from 'react';
 import firebase from "../shared/firebase";
 import {Grid, Paper} from "@material-ui/core"
 import '../styles/GroupsList.css';
-
+import AddGroup from "./AddGroup";
 
 const db = firebase.database().ref();
 
-
 const addGroups = (uid, data) => {
+    if (!uid) return;
+
     const array = ['personal', ...Object.entries(data.groups).filter(
         ([gid, group]) => {
             return(Object.values(group)[0].includes(uid))
         }
     ).map(([gid, group]) => Object.keys(group)[0])]
+
     return(array)
 }
 
-const GroupsList = ({uid}) => {
+const GroupsList = () => {
     const [groups, setGroups] = useState([]);
+    const [uid, setUid] = useState();
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                setUid(user.uid);
+            }
+        });
+    });
+
     useEffect(() => {
             const handleData = snap => {
                 if (snap.val()) setGroups(addGroups(uid, snap.val()));
@@ -40,6 +52,7 @@ const GroupsList = ({uid}) => {
                     })}
                 </React.Fragment>
             </Grid>
+            <AddGroup uid={uid}/>
         </div>
     )
 }
