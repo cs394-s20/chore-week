@@ -24,10 +24,42 @@ const addChores = (uid, data) => {
     };
 };
 
-const ChoresList = ({user}) => {
-  const [chores, setChores] = useState({todo: [], done: []});
+const ToDo = ({user, chores}) => {
+    return (
+        <List className="list-root">
+            <React.Fragment>
+                {chores.todo.map(chore => <Chore key={chore.name}
+                                                 uid={user.uid}
+                                                 chore={chore}/>)}
+            </React.Fragment>
+        </List>
+    );
+};
 
-  useEffect(() => {
+const Done = ({user, chores}) => {
+    return (
+        <List className="list-root">
+            <React.Fragment>
+                {chores.done.map(chore => <Chore key={chore.name}
+                                                 uid={user.uid}
+                                                 chore={chore}/>)}
+            </React.Fragment>
+        </List>
+    );
+};
+
+const ChoresList = () => {
+    const [chores, setChores] = useState({todo: [], done: []});
+    const [user, setUser] = useState(firebase.auth().currentUser);
+
+    useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            setUser(user);
+        });
+    }, []);
+
+    useEffect(() => {
+            if (!user) return;
             const handleData = snap => {
                 if (snap.val()) setChores(addChores(user.uid, snap.val()));
             };
@@ -38,36 +70,37 @@ const ChoresList = ({user}) => {
             };
         },
         [
-            user.uid
+            user
         ]);
 
     return (
         <div className="ChoresListWrapper">
+            {
+                user ?
+                    (
+                        <div>
+                            <div className="ListSpacer"/>
 
-            <div className="ListSpacer"/>
+                            <Typography variant="h4" style={{marginLeft: 8}}>To Do</Typography>
+                            <ToDo user={user} chores={chores}/>
 
-            <Typography variant="h4" style={{marginLeft: 8}}>To Do</Typography>
-            <List className="list-root">
-                <React.Fragment>
-                    {chores.todo.map(chore => <Chore key={chore.name}
-                                                     uid={user.uid}
-                                                     chore={chore}/>)}
-                </React.Fragment>
-            </List>
+                            <div className="ListSpacer"/>
 
-            <div className="ListSpacer"/>
+                            <Typography variant="h4" style={{marginLeft: 8}}>Done</Typography>
+                            <Done user={user} chores={chores}/>
 
-            <Typography variant="h4" style={{marginLeft: 8}}>Done</Typography>
-            <List className="list-root">
-                <React.Fragment>
-                    {chores.done.map(chore => <Chore key={chore.name}
-                                                     uid={user.uid}
-                                                     chore={chore}/>)}
-                </React.Fragment>
-            </List>
-
-            <div className="ListSpacer"/>
-            <AddChore uid={user.uid}/>
+                            <div className="ListSpacer"/>
+                            <AddChore uid={user.uid}/>
+                        </div>
+                    )
+                    :
+                    (
+                        <div>
+                            <div className="ListSpacer"/>
+                            <Typography variant="h5" style={{textAlign: 'center'}}>Loading...</Typography>
+                        </div>
+                    )
+            }
         </div>
     );
 };

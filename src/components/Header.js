@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const logout = () => {
   firebase.auth().signOut().then(function() {
-    // Sign-out successful.
+    document.getElementById('signout-link').click();
   }).catch(function(error) {
     // An error happened.
   });
@@ -55,6 +56,7 @@ function Header() {
 
     return (
         <div className="header-root">
+            <Link id="signout-link" style={{ display: 'none'}} to="/" />
             <AppBar position="static">
                 <Toolbar>
                     <Grid container spacing={3}>
