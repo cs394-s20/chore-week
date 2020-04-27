@@ -13,8 +13,6 @@ import firebase from "../shared/firebase";
 
 export default function SimpleBottomNavigation() {
     const [user, setUser] = useState(firebase.auth().currentUser);
-
-    console.log(user)
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
