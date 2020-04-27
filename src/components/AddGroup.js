@@ -4,7 +4,7 @@ import firebase from "../shared/firebase";
 
 const db = firebase.database().ref();
 
-const AddGroup = ({uid}) => {
+const AddGroup = ({uid, invite}) => {
     const [open, setOpen] = useState(false);
     const [groupName, setGroupName] = useState('');
 
@@ -21,13 +21,21 @@ const AddGroup = ({uid}) => {
     };
 
     const handleSave = () => {
+        var num = parseInt(invite, 16);
+        num += 1;
+        const newNum = num.toString(16);
         const group = {
-            [groupName]: [uid]
+            [newNum]:
+            {[groupName]: [uid]}
         };
 
-        db.child('groups').push(group)
+        db.child('groups').update(group)
             .then(() => setOpen(false))
             .catch(error => alert(error));
+        
+        db.update({"CurrentInvite": newNum}).catch(error => alert(error));
+
+        setGroupName("");
     };
 
     return (

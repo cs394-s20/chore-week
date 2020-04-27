@@ -3,6 +3,7 @@ import firebase from "../shared/firebase";
 import {Grid, Paper} from "@material-ui/core"
 import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
+import JoinGroup from './JoinGroup';
 
 const db = firebase.database().ref();
 
@@ -23,6 +24,19 @@ const addGroups = (uid, data) => {
 const GroupsList = () => {
     const [groups, setGroups] = useState([]);
     const [uid, setUid] = useState();
+    const [invite, setInvite] = useState();
+
+    useEffect(() => {
+        const dbInvite = db.child("CurrentInvite");
+        const handleData = snap => {
+            if (snap.val()) setInvite(snap.val());
+        };
+
+        dbInvite.on('value', handleData, error => alert(error));
+        return () => {
+            dbInvite.off('value', handleData);
+        };
+    })
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged((user) => {
@@ -33,18 +47,19 @@ const GroupsList = () => {
     });
 
     useEffect(() => {
-            const handleData = snap => {
-                if (snap.val()) setGroups(addGroups(uid, snap.val()));
-            };
+        const handleData = snap => {
+            if (snap.val()) setGroups(addGroups(uid, snap.val()));
+        };
 
-            db.on('value', handleData, error => alert(error));
-            return () => {
-                db.off('value', handleData);
-            };
-        },
-        [
-            uid
-        ]);
+        db.on('value', handleData, error => alert(error));
+        return () => {
+            db.off('value', handleData);
+        };
+    },
+    [
+        uid
+    ]);
+
     return (
         <div className='GridWrapper'>
             <Grid container justify="center" align-items="flex-start" spacing={3}>
@@ -54,7 +69,8 @@ const GroupsList = () => {
                     })}
                 </React.Fragment>
             </Grid>
-            <AddGroup uid={uid}/>
+            <AddGroup uid={uid} invite={invite}/>
+            <JoinGroup uid={uid}/>
         </div>
     )
 }
