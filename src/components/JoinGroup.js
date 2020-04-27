@@ -37,20 +37,24 @@ const JoinGroup = ({uid}) => {
     };
 
     const handleSubmit = () => {
-        console.log(groups)
         if (! groupKeys.some(keys => keys === groupCode)){
             window.confirm("This group code does not exist");
         }else{
-            const groupInfo = groups[groupCode]
-            const groupName = Object.keys(groupInfo)[0]
-            var members = Object.values(groupInfo)[0]
-            members.push(uid)
+            const groupInfo = groups[groupCode];
+            const groupName = Object.keys(groupInfo)[0];
+            var members = Object.values(groupInfo)[0];
+            if(members.includes(uid)){
+                window.confirm("This group already exist")
+            }
+            else{
+                members.push(uid);
 
-            db.child('groups').child(groupCode).update({[groupName]: members})
-            .then(() => setOpen(false))
-            .catch(error => alert(error));
+                db.child('groups').child(groupCode).update({[groupName]: members})
+                    .then(() => setOpen(false))
+                    .catch(error => alert(error));
 
-            setGroupCode("");
+                setGroupCode("");
+            }
         }
     };
 
@@ -78,6 +82,6 @@ const JoinGroup = ({uid}) => {
             </Dialog>
         </div>
     )
-}
+};
 
 export default JoinGroup;
