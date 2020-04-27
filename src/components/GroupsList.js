@@ -4,6 +4,7 @@ import {Grid, Paper} from "@material-ui/core"
 import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
 import JoinGroup from './JoinGroup';
+import Typography from "@material-ui/core/Typography";
 
 const db = firebase.database().ref();
 
@@ -61,17 +62,28 @@ const GroupsList = () => {
     ]);
 
     return (
-        <div className='GridWrapper'>
-            <Grid container justify="center" align-items="flex-start" spacing={3}>
-                <React.Fragment>
-                    {groups.map((group) => {
-                        return (<Group group={group} key={group.gid}/>)
-                    })}
-                </React.Fragment>
-            </Grid>
-            <AddGroup uid={uid} invite={invite}/>
-            <JoinGroup uid={uid}/>
-        </div>
+        uid !== window.undefined ?
+        (
+            <div className='GridWrapper'>
+                <Grid container justify="center" align-items="flex-start" spacing={3}>
+                    <React.Fragment>
+                        {groups.map((group) => {
+                            return (<Group group={group} key={group.gid}/>)
+                        })}
+                    </React.Fragment>
+                </Grid>
+                <AddGroup uid={uid} invite={invite}/>
+                <JoinGroup uid={uid}/>
+            </div>
+        )
+        :
+        (
+            <div>
+                <div className="ListSpacer"/>
+                <Typography variant="h5" style={{textAlign: 'center'}}>Loading...</Typography>
+            </div>
+        )
+        
     )
 }
 
