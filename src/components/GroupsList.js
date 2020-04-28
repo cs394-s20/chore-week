@@ -113,6 +113,7 @@ const Group = ({group}) => {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <List>
+                    <ListItem><ListItemText> invite code: {group.gid}</ListItemText></ListItem>
                     {group.members.map((member) => {
                         return (<ListItem><ListItemText>{member}</ListItemText></ListItem>)
                     })}
