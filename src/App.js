@@ -16,14 +16,14 @@ function App() {
             }
         });
     }, []);
-
+    
     return (
         <div>
             <Link id="signin-link" style={{ display: 'none'}} to="/" />
             <Link id="chores-link" style={{ display: 'none'}} to="/chores" />
             <SignIn uid={user ? user.uid : null}/>
         </div>
-    );
+    ); 
 }
 
 export default App;
