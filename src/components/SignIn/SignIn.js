@@ -22,6 +22,10 @@ const SignInPage = () => {
             signInSuccessWithAuthResult: (result) => {
                 const uid = result.user.uid;
                 const exist = users.some(user => user === uid);
+                db.child("idToUser").child(`${uid}`).update({
+                    displayName: result.user.displayName,
+                    email: result.user.email
+                })
                 if (!exist) {
                     console.log(`adding ${uid}`);
                     db.child("users").child(`${uid}`).set({
