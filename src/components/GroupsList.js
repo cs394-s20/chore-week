@@ -5,19 +5,32 @@ import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
 import JoinGroup from './JoinGroup';
 import Typography from "@material-ui/core/Typography";
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const db = firebase.database().ref();
+
+const membersToNames = (data, members) => {
+    return members.map((member) => {
+        if(data.idToUser[member])
+        return data.idToUser[member].displayName
+    return member})
+}
 
 const addGroups = (uid, data) => {
     if (!uid) return;
 
-    const array = [{gid: 'personal', name: 'personal'}, ...Object.entries(data.groups).filter(
+    const array = [{gid: 'personal', name: 'personal', members:['me']}, ...Object.entries(data.groups).filter(
         ([gid, group]) => {
             return(Object.values(group)[0].includes(uid))
         }
     ).map(([gid, group]) => {
-        return { gid, name: Object.keys(group)[0]};
+        return { gid, name: Object.keys(group)[0], members: membersToNames(data, Object.values(group)[0])};
     })]
+    console.log(array);
 
     return(array)
 }
@@ -65,13 +78,11 @@ const GroupsList = () => {
         uid !== window.undefined ?
         (
             <div className='GridWrapper'>
-                <Grid container justify="center" align-items="flex-start" spacing={3}>
-                    <React.Fragment>
-                        {groups.map((group) => {
-                            return (<Group group={group} key={group.gid}/>)
-                        })}
-                    </React.Fragment>
-                </Grid>
+                <React.Fragment>
+                    {groups.map((group) => {
+                        return (<Group group={group} key={group.gid}/>)
+                    })}
+                </React.Fragment>
                 <AddGroup uid={uid} invite={invite}/>
                 <JoinGroup uid={uid}/>
             </div>
@@ -89,11 +100,26 @@ const GroupsList = () => {
 
 const Group = ({group}) => {
     return (
-        <Grid item xs={6}>
-            <Paper className='card'>
-                {group.gid} | {group.name}
-            </Paper>
-        </Grid>
+        <ExpansionPanel>
+            <ExpansionPanelSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                id="panel1a-header"
+            >
+                <Typography>{group.name}</Typography>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails>
+                <React.Fragment>
+                    {group.members.map((member) => {
+                        return (<Typography>{member}</Typography>)
+                    })}
+                </React.Fragment>
+            </ExpansionPanelDetails>
+
+
+        </ExpansionPanel>
+
+
     )
 }
 
