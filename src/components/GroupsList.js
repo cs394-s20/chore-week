@@ -8,6 +8,9 @@ import Typography from "@material-ui/core/Typography";
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
@@ -109,11 +112,11 @@ const Group = ({group}) => {
                 <Typography>{group.name}</Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <React.Fragment>
+                <List>
                     {group.members.map((member) => {
-                        return (<Typography>{member}</Typography>)
+                        return (<ListItem><ListItemText>{member}</ListItemText></ListItem>)
                     })}
-                </React.Fragment>
+                </List>
             </ExpansionPanelDetails>
 
 
