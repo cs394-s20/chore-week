@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import firebase from "../shared/firebase";
-import {Grid, Paper} from "@material-ui/core"
+import { addGroups } from '../shared/filters';
 import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
 import JoinGroup from './JoinGroup';
@@ -11,32 +11,9 @@ import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
 const db = firebase.database().ref();
-
-const membersToNames = (data, members) => {
-    return members.map((member) => {
-        if(data.idToUser[member])
-        return data.idToUser[member].displayName
-    return member})
-}
-
-const addGroups = (uid, data) => {
-    if (!uid) return;
-
-    const array = [{gid: 'personal', name: 'personal', members:['me']}, ...Object.entries(data.groups).filter(
-        ([gid, group]) => {
-            return(Object.values(group)[0].includes(uid))
-        }
-    ).map(([gid, group]) => {
-        return { gid, name: Object.keys(group)[0], members: membersToNames(data, Object.values(group)[0])};
-    })]
-    console.log(array);
-
-    return(array)
-}
 
 const GroupsList = () => {
     const [groups, setGroups] = useState([]);
@@ -65,7 +42,7 @@ const GroupsList = () => {
 
     useEffect(() => {
         const handleData = snap => {
-            if (snap.val()) setGroups(addGroups(uid, snap.val()));
+            if (snap.val()) setGroups(uid ? addGroups(uid, snap.val()) : []);
         };
 
         db.on('value', handleData, error => alert(error));
@@ -98,8 +75,8 @@ const GroupsList = () => {
             </div>
         )
         
-    )
-}
+    );
+};
 
 const Group = ({group}) => {
     return (
@@ -124,9 +101,7 @@ const Group = ({group}) => {
         </ExpansionPanel>
 
 
-    )
-}
+    );
+};
 
-export default GroupsList
-
-
+export default GroupsList;

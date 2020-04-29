@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import firebase from '../../shared/firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
@@ -6,13 +6,7 @@ import '../../styles/SignIn.css';
 
 const db = firebase.database().ref();
 
-const addUsers = (data) => {
-    return Object.keys(data.users);
-};
-
 const SignInPage = () => {
-    const [users, setUsers] = useState([]);
-
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
@@ -39,18 +33,6 @@ const SignInPage = () => {
             firebaseAuth={firebase.auth()}
         />
     );
-
-    useEffect(() => {
-            const handleData = snap => {
-                if (snap.val()) setUsers(addUsers(snap.val()));
-            };
-
-            db.on('value', handleData, error => alert(error));
-            return () => {
-                db.off('value', handleData);
-            };
-        },
-        []);
 
     return (
         <div className="PositionWrap">

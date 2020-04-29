@@ -1,28 +1,13 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from "../shared/firebase";
 import Chore from "./Chore";
 import '../styles/ChoresList.css'
 import List from '@material-ui/core/List';
 import Typography from "@material-ui/core/Typography";
 import AddChore from "./AddChore";
+import { addChores } from '../shared/filters';
 
 const db = firebase.database().ref();
-
-const addChores = (uid, data) => {
-    let chores = Object.entries(data.users[uid]);
-    chores = chores.filter(chore => chore[0] !== "ignoreThisChore");
-    chores = chores.map(entry => ({
-        name: entry[0],
-        group: entry[1].group,
-        dueDate: new Date(entry[1].dueDate),
-        isDone: !!entry[1].dateCompleted
-    }));
-
-    return {
-        todo: chores.filter(chore => !chore.isDone),
-        done: chores.filter(chore => chore.isDone)
-    };
-};
 
 const ToDo = ({user, chores}) => {
     return (
