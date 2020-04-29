@@ -19,14 +19,14 @@ const addGroups = (uid, data) => {
     const personalGroup = {
         gid: 'personal',
         name: 'personal',
-        members: [uid]
+        members: membersToNames(data, [uid])
     };
 
     return [
         personalGroup,
         ...Object.entries(data.groups)
             .filter(([gid, {members}]) => Object.values(members).includes(uid))
-            .map(([gid, {name, members}]) => ({gid, name, members: membersToNames(Object.values(members))}))
+            .map(([gid, {name, members}]) => ({gid, name, members: membersToNames(data, Object.values(members))}))
     ];
 };
 
