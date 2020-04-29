@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import firebase from "../shared/firebase";
-import { addGroups } from '../shared/filters';
+import {addGroups} from '../shared/filters';
 import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
 import JoinGroup from './JoinGroup';
@@ -21,7 +21,7 @@ const GroupsList = () => {
     const [invite, setInvite] = useState();
 
     useEffect(() => {
-        const dbInvite = db.child("CurrentInvite");
+        const dbInvite = db.child("currentInvite");
         const handleData = snap => {
             if (snap.val()) setInvite(snap.val());
         };
@@ -41,40 +41,39 @@ const GroupsList = () => {
     });
 
     useEffect(() => {
-        const handleData = snap => {
-            if (snap.val()) setGroups(uid ? addGroups(uid, snap.val()) : []);
-        };
+            const handleData = snap => {
+                if (snap.val()) setGroups(uid ? addGroups(uid, snap.val()) : []);
+            };
 
-        db.on('value', handleData, error => alert(error));
-        return () => {
-            db.off('value', handleData);
-        };
-    },
-    [
-        uid
-    ]);
+            db.on('value', handleData, error => alert(error));
+            return () => {
+                db.off('value', handleData);
+            };
+        },
+        [
+            uid
+        ]);
 
     return (
-        uid !== window.undefined ?
-        (
-            <div className='GridWrapper'>
-                <React.Fragment>
-                    {groups.map((group) => {
-                        return (<Group group={group} key={group.gid}/>)
-                    })}
-                </React.Fragment>
-                <AddGroup uid={uid} invite={invite}/>
-                <JoinGroup uid={uid}/>
-            </div>
-        )
-        :
-        (
-            <div>
-                <div className="ListSpacer"/>
-                <Typography variant="h5" style={{textAlign: 'center'}}>Loading...</Typography>
-            </div>
-        )
-        
+        uid
+            ? (
+                <div className='GridWrapper'>
+                    {
+                        groups.map((group) => (
+                            <Group group={group} key={group.gid}/>
+                        ))
+                    }
+                    <AddGroup uid={uid} invite={invite}/>
+                    <JoinGroup uid={uid}/>
+                </div>
+            )
+            : (
+                <div>
+                    <div className="ListSpacer"/>
+                    <Typography variant="h5" style={{textAlign: 'center'}}>Loading...</Typography>
+                </div>
+            )
+
     );
 };
 
@@ -82,7 +81,7 @@ const Group = ({group}) => {
     return (
         <ExpansionPanel>
             <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon />}
+                expandIcon={<ExpandMoreIcon/>}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
             >
@@ -90,10 +89,16 @@ const Group = ({group}) => {
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <List>
-                    <ListItem><ListItemText> invite code: {group.gid}</ListItemText></ListItem>
-                    {group.members.map((member) => {
-                        return (<ListItem><ListItemText>{member}</ListItemText></ListItem>)
-                    })}
+                    <ListItem>
+                        <ListItemText>invite code: {group.gid}</ListItemText>
+                    </ListItem>
+                    {
+                        group.members.map((member) => (
+                            <ListItem key={member}>
+                                <ListItemText>{member}</ListItemText>
+                            </ListItem>
+                        ))
+                    }
                 </List>
             </ExpansionPanelDetails>
 

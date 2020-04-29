@@ -2,17 +2,12 @@ const addChores = (uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.uid === uid)
         .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status}]) => {
-            return {cid, gid, uid, name, dueDate, dateCompleted, recursion, status, isDone: !!dateCompleted};
+            return {cid, gid, uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
         })
-        .reduce((acc, chore) => {
-            if (!acc.todo) {
-                acc['todo'] = [];
-                acc['done'] = [];
-            }
-
+        .reduce((acc, chore, i) => {
             acc[chore.isDone ? 'done' : 'todo'].push(chore);
             return acc;
-        });
+        }, { todo: [], done: [] });
 };
 
 const addGroups = (uid, data) => {

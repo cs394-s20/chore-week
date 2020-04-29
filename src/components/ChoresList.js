@@ -13,7 +13,7 @@ const ToDo = ({user, chores}) => {
     return (
         <List className="list-root">
             <React.Fragment>
-                {chores.todo.map(chore => <Chore key={chore.name}
+                {chores.todo.map(chore => <Chore key={chore.cid}
                                                  uid={user.uid}
                                                  chore={chore}/>)}
             </React.Fragment>
@@ -25,7 +25,7 @@ const Done = ({user, chores}) => {
     return (
         <List className="list-root">
             <React.Fragment>
-                {chores.done.map(chore => <Chore key={chore.name}
+                {chores.done.map(chore => <Chore key={chore.cid}
                                                  uid={user.uid}
                                                  chore={chore}/>)}
             </React.Fragment>

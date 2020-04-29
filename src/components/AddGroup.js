@@ -21,21 +21,23 @@ const AddGroup = ({uid, invite}) => {
     };
 
     const handleSave = () => {
-        var num = parseInt(invite, 16);
-        num += 1;
+        const num = parseInt(invite, 16) + 1;
         const newNum = num.toString(16);
         const group = {
-            [newNum]:
-            {[groupName]: [uid]}
+            [newNum]: {
+                name: groupName,
+                members: [uid]
+            }
         };
 
-        db.child('groups').update(group)
+        db.child('groups')
+            .update(group)
             .then(() => setOpen(false))
+            .then(() => setGroupName(""))
             .catch(error => alert(error));
         
-        db.update({"CurrentInvite": newNum}).catch(error => alert(error));
-
-        setGroupName("");
+        db.update({"currentInvite": newNum})
+            .catch(error => alert(error));
     };
 
     return (
