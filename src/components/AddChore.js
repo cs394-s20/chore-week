@@ -19,13 +19,15 @@ import DateFnsUtils from '@date-io/date-fns';
 
 const db = firebase.database().ref();
 
-const AddChore = ({uid}) => {
+const AddChore = ({uid, username}) => {
     const [open, setOpen] = useState(false);
     const [groups, setGroups] = useState([]);
     const [name, setName] = useState('New Chore');
     const [dueDate, setDueDate] = useState(new Date());
-    const [group, setGroup] = useState({ gid: 'personal', name: 'personal' });
+    const [group, setGroup] = useState({ gid: 'personal', name: 'personal',
+        members: [{uid: uid, username: username}] });
     const [recursion, setRecursion] = useState('none');
+    const [assignee, setAssignee] = useState({uid: uid, username: username});
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -87,7 +89,7 @@ const AddChore = ({uid}) => {
                                     format="MM/dd/yyyy"
                                     margin="normal"
                                     id="date-picker-inline"
-                                    label="Date picker inline"
+                                    label="Due date"
                                     value={dueDate}
                                     onChange={setDueDate}
                                     KeyboardButtonProps={{
@@ -110,6 +112,25 @@ const AddChore = ({uid}) => {
                                     groups.map(group => (
                                         <MenuItem key={group.gid} value={group}>{group.name}</MenuItem>
                                     ))
+                                }
+                            </TextField>
+                        </div>
+                        <div>
+                            <TextField select
+                                       label="Assignee"
+                                       id="assignee"
+                                       value={assignee}
+                                       SelectProps={{
+                                           renderValue: (value) => value.username
+                                       }}
+                                       onChange={(ev) => setAssignee(ev.target.value)}
+                            >
+                                {
+                                    group.members ?
+                                    group.members.map(member => (
+                                        <MenuItem key={member.uid} value={member}>{member.username}</MenuItem>
+                                    )) : <MenuItem/>
+
                                 }
                             </TextField>
                         </div>

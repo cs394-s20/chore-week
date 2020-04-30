@@ -75,7 +75,7 @@ const ChoresList = () => {
                             <Done user={user} chores={chores}/>
 
                             <div className="ListSpacer"/>
-                            <AddChore uid={user.uid}/>
+                            <AddChore uid={user.uid} username={user.displayName}/>
                         </div>
                     )
                     :

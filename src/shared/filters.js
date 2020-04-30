@@ -28,9 +28,12 @@ const addGroups = (uid, data) => {
 };
 
 const membersToNames = (data, members) => members
-    .map((uid) => data.users[uid] ? data.users[uid].displayName : uid);
+    .map((uid) => ({
+        username: data.users[uid] ? data.users[uid].displayName : uid,
+        uid: uid
+    }))
 
-const gidToGroupName = (data, gid) => data.groups[gid].name
+const gidToGroupName = (data, gid) => data.groups[gid] ? data.groups[gid].name : "personal";
 
 export {
     addChores,
