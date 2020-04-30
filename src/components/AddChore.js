@@ -106,7 +106,11 @@ const AddChore = ({uid, username}) => {
                                        SelectProps={{
                                            renderValue: (value) => value.name
                                        }}
-                                       onChange={(ev) => setGroup(ev.target.value)}
+                                       onChange={(ev) => {
+                                           setGroup(ev.target.value)
+                                           setAssignee(ev.target.value.members[0])
+                                       }
+                                       }
                             >
                                 {
                                     groups.map(group => (

@@ -35,6 +35,7 @@ const Chore = ({ uid, chore }) => {
 
     const handleChange = () => {
         chore.isDone = !checked;
+        chore.status = chore.isDone ? "pending" : "incomplete";
         setChecked(!checked);
         setDueColor(getDueColor(chore));
 
@@ -52,7 +53,15 @@ const Chore = ({ uid, chore }) => {
             <ListItemText primary={chore.name}
                           secondary={chore.groupName}
             />
+            {/*<ListItem>*/}
+            {/*    <text checked={checked} disable={!checked} >*/}
+            {/*        Pending*/}
+            {/*    </text>*/}
+            {/*</ListItem>*/}
             <ListItemSecondaryAction>
+                <div className={chore.status} >
+                    Pending
+                </div>
                 <Chip label={chore.dueDate.toDateString()}
                       style={dueColor}
                       icon={ <QueryBuilderOutlinedIcon style={{color: 'black'}}/> }

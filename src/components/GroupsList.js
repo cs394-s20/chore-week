@@ -94,8 +94,8 @@ const Group = ({group}) => {
                     </ListItem>
                     {
                         group.members.map((member) => (
-                            <ListItem key={member}>
-                                <ListItemText>{member}</ListItemText>
+                            <ListItem key={member.uid}>
+                                <ListItemText>{member.username}</ListItemText>
                             </ListItem>
                         ))
                     }
