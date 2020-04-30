@@ -5,13 +5,7 @@ import '../styles/GroupsList.css';
 import AddGroup from "./AddGroup";
 import JoinGroup from './JoinGroup';
 import Typography from "@material-ui/core/Typography";
-import ExpansionPanel from '@material-ui/core/ExpansionPanel';
-import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import Group from "./Group";
 
 const db = firebase.database().ref();
 
@@ -60,7 +54,7 @@ const GroupsList = () => {
                 <div className='GridWrapper'>
                     {
                         groups.map((group) => (
-                            <Group group={group} key={group.gid}/>
+                            <Group group={group} uid={uid} key={group.gid}/>
                         ))
                     }
                     <AddGroup uid={uid} invite={invite}/>
@@ -77,36 +71,5 @@ const GroupsList = () => {
     );
 };
 
-const Group = ({group}) => {
-    return (
-        <ExpansionPanel>
-            <ExpansionPanelSummary
-                expandIcon={<ExpandMoreIcon/>}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Typography>{group.name}</Typography>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-                <List>
-                    <ListItem>
-                        <ListItemText>invite code: {group.gid}</ListItemText>
-                    </ListItem>
-                    {
-                        group.members.map((member) => (
-                            <ListItem key={member.uid}>
-                                <ListItemText>{member.username}</ListItemText>
-                            </ListItem>
-                        ))
-                    }
-                </List>
-            </ExpansionPanelDetails>
-
-
-        </ExpansionPanel>
-
-
-    );
-};
 
 export default GroupsList;

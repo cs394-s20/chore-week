@@ -46,7 +46,7 @@ const AddChore = ({uid, username}) => {
             .push({
                 name,
                 gid: group.gid,
-                uid,
+                uid: assignee.uid,
                 dueDate: thisDate.toString(),
                 recursion,
                 status: 'incomplete'
