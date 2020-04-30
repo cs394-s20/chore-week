@@ -2,13 +2,15 @@ const addChores = (uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.uid === uid)
         .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status}]) => {
-            return {cid, gid, uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
+            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
         })
         .reduce((acc, chore, i) => {
             acc[chore.isDone ? 'done' : 'todo'].push(chore);
             return acc;
         }, { todo: [], done: [] });
 };
+
+
 
 const addGroups = (uid, data) => {
     const personalGroup = {
@@ -27,6 +29,8 @@ const addGroups = (uid, data) => {
 
 const membersToNames = (data, members) => members
     .map((uid) => data.users[uid] ? data.users[uid].displayName : uid);
+
+const gidToGroupName = (data, gid) => data.groups[gid].name
 
 export {
     addChores,

@@ -50,7 +50,7 @@ const Chore = ({ uid, chore }) => {
                 />
             </ListItemIcon>
             <ListItemText primary={chore.name}
-                          secondary={chore.group}
+                          secondary={chore.groupName}
             />
             <ListItemSecondaryAction>
                 <Chip label={chore.dueDate.toDateString()}
