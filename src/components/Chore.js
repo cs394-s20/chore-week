@@ -20,11 +20,12 @@ const getDueColor = (chore) => {
 const updateChore = (uid, chore) => {
     if (chore.isDone) {
         const now = new Date();
-        db.child('users').child(uid).child(chore.name).update({dateCompleted: now.toString()})
+        db.child('chores').child(chore.cid).update({dateCompleted: now.toString(), status: chore.status})
             .catch(error => alert(error));
     }
     else {
-        db.child('users').child(uid).child(chore.name).child("dateCompleted").remove()
+        db.child('chores').child(chore.cid).child("dateCompleted").remove()
+            .then(() => db.child('chores').child(chore.cid).update({status: chore.status}))
             .catch(error => alert(error));
     }
 };
@@ -32,9 +33,12 @@ const updateChore = (uid, chore) => {
 const Chore = ({ uid, chore }) => {
     const [checked, setChecked] = React.useState(chore.isDone);
     const [dueColor, setDueColor] = React.useState(getDueColor(chore));
+    const [status, setStatus] = React.useState(chore.status);
 
     const handleChange = () => {
         chore.isDone = !checked;
+        chore.status = chore.isDone ? "pending" : "incomplete";
+        setStatus(chore.status);
         setChecked(!checked);
         setDueColor(getDueColor(chore));
 
@@ -50,9 +54,12 @@ const Chore = ({ uid, chore }) => {
                 />
             </ListItemIcon>
             <ListItemText primary={chore.name}
-                          secondary={chore.group}
+                          secondary={chore.groupName}
             />
             <ListItemSecondaryAction>
+                <div className={status} >
+                    Pending
+                </div>
                 <Chip label={chore.dueDate.toDateString()}
                       style={dueColor}
                       icon={ <QueryBuilderOutlinedIcon style={{color: 'black'}}/> }

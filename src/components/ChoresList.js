@@ -1,34 +1,19 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from "../shared/firebase";
 import Chore from "./Chore";
 import '../styles/ChoresList.css'
 import List from '@material-ui/core/List';
 import Typography from "@material-ui/core/Typography";
 import AddChore from "./AddChore";
+import { addChores } from '../shared/filters';
 
 const db = firebase.database().ref();
-
-const addChores = (uid, data) => {
-    let chores = Object.entries(data.users[uid]);
-    chores = chores.filter(chore => chore[0] !== "ignoreThisChore");
-    chores = chores.map(entry => ({
-        name: entry[0],
-        group: entry[1].group,
-        dueDate: new Date(entry[1].dueDate),
-        isDone: !!entry[1].dateCompleted
-    }));
-
-    return {
-        todo: chores.filter(chore => !chore.isDone),
-        done: chores.filter(chore => chore.isDone)
-    };
-};
 
 const ToDo = ({user, chores}) => {
     return (
         <List className="list-root">
             <React.Fragment>
-                {chores.todo.map(chore => <Chore key={chore.name}
+                {chores.todo.map(chore => <Chore key={chore.cid}
                                                  uid={user.uid}
                                                  chore={chore}/>)}
             </React.Fragment>
@@ -40,7 +25,7 @@ const Done = ({user, chores}) => {
     return (
         <List className="list-root">
             <React.Fragment>
-                {chores.done.map(chore => <Chore key={chore.name}
+                {chores.done.map(chore => <Chore key={chore.cid}
                                                  uid={user.uid}
                                                  chore={chore}/>)}
             </React.Fragment>
@@ -90,7 +75,7 @@ const ChoresList = () => {
                             <Done user={user} chores={chores}/>
 
                             <div className="ListSpacer"/>
-                            <AddChore uid={user.uid}/>
+                            <AddChore uid={user.uid} username={user.displayName}/>
                         </div>
                     )
                     :

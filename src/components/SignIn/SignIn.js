@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import firebase from '../../shared/firebase.js';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import logo from './logo.jpeg';
@@ -6,13 +6,7 @@ import '../../styles/SignIn.css';
 
 const db = firebase.database().ref();
 
-const addUsers = (data) => {
-    return Object.entries(data.users).map(entry => entry[0]);
-};
-
 const SignInPage = () => {
-    const [users, setUsers] = useState([]);
-
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
@@ -20,21 +14,14 @@ const SignInPage = () => {
         ],
         callbacks: {
             signInSuccessWithAuthResult: (result) => {
-                const uid = result.user.uid;
-                const exist = users.some(user => user === uid);
-                db.child("idToUser").child(`${uid}`).update({
-                    displayName: result.user.displayName,
-                    email: result.user.email
-                })
-                if (!exist) {
-                    console.log(`adding ${uid}`);
-                    db.child("users").child(`${uid}`).set({
-                        ignoreThisChore: {
-                            name: 'not a chore',
-                            dueDate: Date.now().toString()
-                        }
-                    }).catch(error => alert(error));
-                }
+                // update user record in database whenever the user signs in
+                db.child("users").child(`${result.user.uid}`)
+                    .update({
+                        displayName: result.user.displayName,
+                        email: result.user.email
+                    })
+                    .catch(error => alert(error));
+
                 return false;
             }
         }
@@ -46,19 +33,6 @@ const SignInPage = () => {
             firebaseAuth={firebase.auth()}
         />
     );
-
-    useEffect(() => {
-            const handleData = snap => {
-                if (snap.val()) setUsers(addUsers(snap.val()));
-            };
-
-            db.on('value', handleData, error => alert(error));
-            return () => {
-                db.off('value', handleData);
-            };
-        },
-        [
-        ]);
 
     return (
         <div className="PositionWrap">

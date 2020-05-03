@@ -1,32 +1,33 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
+import {addGroups} from '../shared/filters';
 import '../styles/AddChore.css';
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
-import firebase from "../shared/firebase";
 import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField
+} from "@material-ui/core";
+import firebase from "../shared/firebase";
+import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
 import 'date-fns';
 import DateFnsUtils from '@date-io/date-fns';
 
 const db = firebase.database().ref();
 
-const addGroups = (uid, data) => {
-    const array = ['personal', ...Object.entries(data.groups).filter(
-        ([gid, group]) => {
-            return(Object.values(group)[0].includes(uid))
-        }
-    ).map(([gid, group]) => Object.keys(group)[0])]
-    return(array)
-}
-
-
-const AddChore = ({uid}) => {
+const AddChore = ({uid, username}) => {
     const [open, setOpen] = useState(false);
-    const [groups, setGroups] = useState(['personal']);
+    const [groups, setGroups] = useState([]);
     const [name, setName] = useState('New Chore');
     const [dueDate, setDueDate] = useState(new Date());
-    const [group, setGroup] = useState('personal');
+    const [group, setGroup] = useState({ gid: 'personal', name: 'personal',
+        members: [{uid: uid, username: username}] });
+    const [recursion, setRecursion] = useState('none');
+    const [assignee, setAssignee] = useState({uid: uid, username: username});
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -37,29 +38,21 @@ const AddChore = ({uid}) => {
     };
 
     const handleSave = () => {
-        const chore = {
-            name: name,
-            dueDate: dueDate,
-            group: group
-        };
+        const thisDate = dueDate;
+        thisDate.setHours(23);
+        thisDate.setMinutes(59);
 
-        chore.dueDate.setHours(23)
-        chore.dueDate.setMinutes(59)
-        chore.dueDute = chore.dueDate.toString()
-
-        // console.log(chore);
-        db.child('users').child(uid).update(
-          {[chore.name]:
-            {dueDate:chore.dueDate, group: chore.group}}).catch(error => alert(error));
+        db.child('chores')
+            .push({
+                name,
+                gid: group.gid,
+                uid: assignee.uid,
+                dueDate: thisDate.toString(),
+                recursion,
+                status: 'incomplete'
+            })
+            .catch(error => alert(error));
         setOpen(false);
-    };
-
-    const handleNameChange = (event) => {
-        setName(event.target.value);
-    };
-
-    const handleGroupChange = (event) => {
-        setGroup(event.target.value);
     };
 
     useEffect(() => {
@@ -86,37 +79,64 @@ const AddChore = ({uid}) => {
                         <TextField id="chore-name"
                                    label="Chore Name"
                                    value={name}
-                                   onChange={handleNameChange}/>
-                         <div>
-                         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                           <KeyboardDatePicker
-                             disableToolbar
-                             variant="inline"
-                             format="MM/dd/yyyy"
-                             margin="normal"
-                             id="date-picker-inline"
-                             label="Date picker inline"
-                             value={dueDate}
-                             onChange={setDueDate}
-                             KeyboardButtonProps={{
-                               'aria-label': 'change date',
-                             }}
-                           />
-                         </MuiPickersUtilsProvider>
-                         </div>
+                                   onChange={(ev) => setName(ev.target.value)}
+                        />
+                        <div>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Due date"
+                                    value={dueDate}
+                                    onChange={setDueDate}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
                         <div className="input-item">
-                            <InputLabel id="group-label">Group</InputLabel>
-                            <Select labelId="group-label"
-                                    id="chore-group"
-                                    value={group}
-                                    onChange={handleGroupChange}
+                            <TextField select
+                                       label="Group"
+                                       id="chore-group"
+                                       value={group}
+                                       SelectProps={{
+                                           renderValue: (value) => value.name
+                                       }}
+                                       onChange={(ev) => {
+                                           setGroup(ev.target.value)
+                                           setAssignee(ev.target.value.members[0])
+                                       }
+                                       }
                             >
                                 {
                                     groups.map(group => (
-                                        <MenuItem key={group} value={group}>{group}</MenuItem>
+                                        <MenuItem key={group.gid} value={group}>{group.name}</MenuItem>
                                     ))
                                 }
-                            </Select>
+                            </TextField>
+                        </div>
+                        <div>
+                            <TextField select
+                                       label="Assignee"
+                                       id="assignee"
+                                       value={assignee}
+                                       SelectProps={{
+                                           renderValue: (value) => value.username
+                                       }}
+                                       onChange={(ev) => setAssignee(ev.target.value)}
+                            >
+                                {
+                                    group.members ?
+                                    group.members.map(member => (
+                                        <MenuItem key={member.uid} value={member}>{member.username}</MenuItem>
+                                    )) : <MenuItem/>
+
+                                }
+                            </TextField>
                         </div>
                     </div>
                 </DialogContent>

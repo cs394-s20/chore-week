@@ -41,15 +41,15 @@ const JoinGroup = ({uid}) => {
             window.confirm("This group code does not exist");
         }else{
             const groupInfo = groups[groupCode];
-            const groupName = Object.keys(groupInfo)[0];
+            //const groupName = Object.keys(groupInfo)[0];
             var members = Object.values(groupInfo)[0];
             if(members.includes(uid)){
-                window.confirm("This group already exist")
+                window.confirm("You've already joined this group")
             }
             else{
                 members.push(uid);
 
-                db.child('groups').child(groupCode).update({[groupName]: members})
+                db.child('groups').child(groupCode).update({"members": members})
                     .then(() => setOpen(false))
                     .catch(error => alert(error));
 
