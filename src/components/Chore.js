@@ -37,7 +37,12 @@ const Chore = ({ uid, chore }) => {
 
     const handleChange = () => {
         chore.isDone = !checked;
-        chore.status = chore.isDone ? "pending" : "incomplete";
+        if (chore.gid === 'personal'){
+            chore.status = chore.isDone ? "complete" : "incomplete";
+        }
+        else{
+            chore.status = chore.isDone ? "pending" : "incomplete";
+        }
         setStatus(chore.status);
         setChecked(!checked);
         setDueColor(getDueColor(chore));
