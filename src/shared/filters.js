@@ -22,7 +22,19 @@ const addChoresByGroup = (gid, uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.gid === gid && chore.status === 'pending' && chore.uid !== uid)
         .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
-            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
+            return {
+                cid,
+                gid,
+                groupName: gidToGroupName(data, gid),
+                uid,
+                assignee: data.users[uid] ? data.users[uid].displayName : uid,
+                name,
+                dueDate: new Date(dueDate),
+                dateCompleted,
+                recursion,
+                status,
+                isDone: !!dateCompleted
+            };
         });
 };
 
