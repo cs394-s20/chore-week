@@ -46,7 +46,9 @@ const ChoresList = () => {
     useEffect(() => {
             if (!user) return;
             const handleData = snap => {
-                if (snap.val()) setChores(addChores(user.uid, snap.val()));
+                if (snap.val()) {
+                    setChores(addChores(user.uid, snap.val()));
+                }
             };
 
             db.on('value', handleData, error => alert(error));
@@ -58,11 +60,13 @@ const ChoresList = () => {
             user
         ]);
 
-    const byeChores = () => {
-        chores.goodbye.map(chore => {
-            db.child("chores").child(`${chore.cid}`).delete();
-        })
-    }
+    useEffect(() => {
+        if(chores.goodbye){
+            chores.goodbye.map(chore => {
+                db.child("chores").child(chore.cid).remove().catch(e => alert(e));
+            })
+        }
+    })
 
     return (
         <div className="ChoresListWrapper">

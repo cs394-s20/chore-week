@@ -7,12 +7,10 @@ const addChores = (uid, data) => {
         .reduce((acc, chore, i) => {
             if (chore.dateCompleted) {
                 var today = new Date()
-                console.log(today)
                 var dc1 = Date.parse(chore.dateCompleted)
                 var dc = new Date(dc1)
-                console.log(typeof dc)
                 var dif = Math.floor((Date.UTC(dc.getUTCFullYear(), dc.getMonth(), dc.getDate()) - Date.UTC(today.getUTCFullYear(), today.getMonth(), today.getDate())) / (1000 * 60 * 60 * 24));
-                if (dif < -7) {
+                if (dif <= -7) {
                     acc['goodbye'].push(chore);
                     return acc;
                 }
