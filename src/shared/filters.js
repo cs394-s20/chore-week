@@ -20,7 +20,8 @@ const addChores = (uid, data) => {
 
 const addChoresByGroup = (gid, uid, data) => {
     return Object.entries(data.chores)
-        .filter(([cid, chore]) => chore.gid === gid && chore.status === 'pending' && chore.uid !== uid)
+        .filter(([cid, chore]) => chore.gid === gid && (chore.status === 'pending' || chore.status === 'incomplete') &&
+            chore.uid !== uid)
         .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
             return {
                 cid,

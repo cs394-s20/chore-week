@@ -57,20 +57,22 @@ const Group = ({uid, group}) => {
                         chores.map((chore) => (
                             <div key={chore.cid}>
                                 <ListItem>
-                                    <ListItemText primary={chore.name} secondary={`Assigned To: ${chore.assignee}`}/>
-                                    <ListItemSecondaryAction>
-                                        <Button variant="contained"
-                                                id={chore.cid}
-                                                color="primary"
-                                                size="small"
-                                                startIcon={<CheckCircleOutlineIcon />}
-                                                onClick={(ev) => {
-                                                    ev.preventDefault();
-                                                    handleMarkCompleted(chore.cid);
-                                                }} >
-                                            Confirm
-                                        </Button>
-                                    </ListItemSecondaryAction>
+                                    <ListItemText primary={chore.name} secondary={`${chore.assignee} : ${chore.status}`}/>
+                                    {chore.status === "pending" ?
+                                        <ListItemSecondaryAction>
+                                            <Button variant="contained"
+                                                    id={chore.cid}
+                                                    color="primary"
+                                                    size="small"
+                                                    startIcon={<CheckCircleOutlineIcon />}
+                                                    onClick={(ev) => {
+                                                        ev.preventDefault();
+                                                        handleMarkCompleted(chore.cid);
+                                                    }} >
+                                                Confirm
+                                            </Button>
+                                        </ListItemSecondaryAction>
+                                        : null }
                                 </ListItem>
                             </div>
                         ))
