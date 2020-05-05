@@ -34,7 +34,7 @@ const Done = ({user, chores}) => {
 };
 
 const ChoresList = () => {
-    const [chores, setChores] = useState({todo: [], done: []});
+    const [chores, setChores] = useState({todo: [], done: [], goodbye: []});
     const [user, setUser] = useState(firebase.auth().currentUser);
 
     useEffect(() => {
@@ -46,7 +46,9 @@ const ChoresList = () => {
     useEffect(() => {
             if (!user) return;
             const handleData = snap => {
-                if (snap.val()) setChores(addChores(user.uid, snap.val()));
+                if (snap.val()) {
+                    setChores(addChores(user.uid, snap.val()));
+                }
             };
 
             db.on('value', handleData, error => alert(error));
@@ -57,6 +59,14 @@ const ChoresList = () => {
         [
             user
         ]);
+
+    useEffect(() => {
+        if(chores.goodbye){
+            chores.goodbye.map(chore => {
+                db.child("chores").child(chore.cid).remove().catch(e => alert(e));
+            })
+        }
+    })
 
     return (
         <div className="ChoresListWrapper">
