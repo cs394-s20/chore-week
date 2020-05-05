@@ -46,7 +46,7 @@ const AddChore = ({uid, username}) => {
             .push({
                 name,
                 gid: group.gid,
-                uid: assignee.uid,
+                uid: assignee.uid === "random" ? group.members[Math.floor(Math.random() * group.members.length)].uid : assignee.uid,
                 dueDate: thisDate.toString(),
                 recursion,
                 status: 'incomplete'
@@ -129,6 +129,13 @@ const AddChore = ({uid, username}) => {
                                        }}
                                        onChange={(ev) => setAssignee(ev.target.value)}
                             >
+                                <MenuItem key="random" value = {
+                                    (
+                                       {
+                                           username: "Random",
+                                           uid: "random"
+                                        }
+                                    )}>Random</MenuItem>
                                 {
                                     group.members ?
                                     group.members.map(member => (
