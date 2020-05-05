@@ -28,6 +28,7 @@ const AddChore = ({uid, username}) => {
         members: [{uid: uid, username: username}] });
     const [recursion, setRecursion] = useState('none');
     const [assignee, setAssignee] = useState({uid: uid, username: username});
+    const recursionTypes = ["none", "daily", "weekly", "biweekly", "monthly"];
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -81,23 +82,6 @@ const AddChore = ({uid, username}) => {
                                    value={name}
                                    onChange={(ev) => setName(ev.target.value)}
                         />
-                        <div>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
-                                    format="MM/dd/yyyy"
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="Due date"
-                                    value={dueDate}
-                                    onChange={setDueDate}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                            </MuiPickersUtilsProvider>
-                        </div>
                         <div className="input-item">
                             <TextField select
                                        label="Group"
@@ -117,6 +101,33 @@ const AddChore = ({uid, username}) => {
                                         <MenuItem key={group.gid} value={group}>{group.name}</MenuItem>
                                     ))
                                 }
+                            </TextField>
+                        </div>
+                        <div>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Due date"
+                                    value={dueDate}
+                                    onChange={setDueDate}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
+                        <div>
+                            <TextField select
+                                       label="Recursion"
+                                       id="recursion"
+                                       value={recursion}
+                                       onChange={(ev) => setRecursion(ev.target.value)}
+                            >
+                                {recursionTypes.map(rtype => (<MenuItem key={rtype} value={rtype}>{rtype}</MenuItem>))}
                             </TextField>
                         </div>
                         <div>

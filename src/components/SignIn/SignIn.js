@@ -21,6 +21,28 @@ const SignInPage = () => {
                         email: result.user.email
                     })
                     .catch(error => alert(error));
+                db.once('value').then(snapshot => {
+                    const data = snapshot.val();
+                    Object.entries(data.chores).forEach(([cid, chore]) => {
+                        console.log(chore)
+                        const today = new Date();
+                        const dc = new Date(chore.dueDate);
+                        if (dc < today && chore.status === "complete") {
+                            switch (chore.recursion) {
+                                case "daily":
+                                    break;
+                                case "weekly":
+                                    break;
+                                case "biweekly":
+                                    break;
+                                case "monthly":
+                                    break;
+                            }
+                        }
+                    })
+                    // ...
+                });
+
 
                 return false;
             }
