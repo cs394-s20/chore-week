@@ -10,6 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import PersonOutlineIcon from '@material-ui/icons/PersonOutline';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import {Link} from "react-router-dom";
+import { updateRecurringChores } from '../shared/updates';
+
+const db = firebase.database().ref();
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -43,6 +46,13 @@ function Header() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    useEffect(() => {
+        db.on('value', updateRecurringChores,error => alert(error));
+        return () => {
+            db.off('value', updateRecurringChores);
+        };
+    }, [])
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(setUser);
