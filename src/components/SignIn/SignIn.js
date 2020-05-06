@@ -26,21 +26,35 @@ const SignInPage = () => {
                     Object.entries(data.chores).forEach(([cid, chore]) => {
                         console.log(chore)
                         const today = new Date();
-                        const dc = new Date(chore.dueDate);
-                        if (dc < today && chore.status === "complete") {
+                        const dd = new Date(chore.dueDate);
+                        if (dd < today && chore.status === "complete") {
+                            const newDay = new Date();
                             switch (chore.recursion) {
-                                case "daily":
+                                case "daily":                         
+                                    newDay.setDate(dd.getDate() + 1);
                                     break;
                                 case "weekly":
+                                    newDay.setDate(dd.getDate() + 7);
                                     break;
                                 case "biweekly":
+                                    newDay.setDate(dd.getDate() + 14);
                                     break;
                                 case "monthly":
+                                    newDay.setDate(dd.getDate() + 28);
                                     break;
+                                case "none":
+                                    return;
                             }
+                            newDay.setHours(23);
+                            newDay.setMinutes(59);
+                            db.child('chores').child(cid).update({
+                                status: "incomplete",
+                                dueDate: newDay.toString(),
+                                dateCompleted: null,
+                                // uid: chore.rotate ? data.groups[gid].members
+                            })
                         }
                     })
-                    // ...
                 });
 
 
