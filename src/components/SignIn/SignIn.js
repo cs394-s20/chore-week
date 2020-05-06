@@ -7,6 +7,13 @@ import '../../styles/SignIn.css';
 const db = firebase.database().ref();
 
 const SignInPage = () => {
+    const nextUser = (data, uid, gid) => {
+        if (gid === "personal" || !data.groups[gid].members.includes(uid)) {
+            return uid
+        }
+        const currentIndex = data.groups[gid].members.indexOf(uid) + 1
+        return data.groups[gid].members[currentIndex === data.groups[gid].members.length ? 0 : currentIndex]
+    }
     const uiConfig = {
         signInFlow: 'popup',
         signInOptions: [
@@ -24,7 +31,6 @@ const SignInPage = () => {
                 db.once('value').then(snapshot => {
                     const data = snapshot.val();
                     Object.entries(data.chores).forEach(([cid, chore]) => {
-                        console.log(chore)
                         const today = new Date();
                         const dd = new Date(chore.dueDate);
                         if (dd < today && chore.status === "complete") {
@@ -51,7 +57,7 @@ const SignInPage = () => {
                                 status: "incomplete",
                                 dueDate: newDay.toString(),
                                 dateCompleted: null,
-                                // uid: chore.rotate ? data.groups[gid].members
+                                uid: chore.rotate ? nextUser(data, chore.uid, chore.gid) : chore.uid
                             })
                         }
                     })

@@ -1,8 +1,8 @@
 const addChores = (uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.uid === uid)
-        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
-            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
+        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete', rotate}]) => {
+            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted, rotate};
         })
         .reduce((acc, chore, i) => {
             if(chore.status==='complete') {
@@ -22,7 +22,7 @@ const addChoresByGroup = (gid, uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.gid === gid && (chore.status === 'pending' || chore.status === 'incomplete') &&
             chore.uid !== uid)
-        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
+        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete', rotate}]) => {
             return {
                 cid,
                 gid,
@@ -34,7 +34,8 @@ const addChoresByGroup = (gid, uid, data) => {
                 dateCompleted,
                 recursion,
                 status,
-                isDone: !!dateCompleted
+                isDone: !!dateCompleted,
+                rotate
             };
         });
 };
