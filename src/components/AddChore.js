@@ -10,7 +10,10 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    TextField
+    TextField,
+    Checkbox,
+    FormControlLabel,
+    FormGroup
 } from "@material-ui/core";
 import firebase from "../shared/firebase";
 import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
@@ -28,6 +31,8 @@ const AddChore = ({uid, username}) => {
         members: [{uid: uid, username: username}] });
     const [recursion, setRecursion] = useState('none');
     const [assignee, setAssignee] = useState({uid: uid, username: username});
+    const [rotate, setRotate] = useState(false);
+    const recursionTypes = ["none", "daily", "weekly", "biweekly", "monthly"];
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -35,7 +40,17 @@ const AddChore = ({uid, username}) => {
 
     const handleClose = () => {
         setOpen(false);
+        resetFields();
     };
+
+    const resetFields = () => {
+        setName('');
+        setGroup({gid:'personal', name:'personal'});
+        setDueDate(new Date());
+        setRecursion('none');
+        setAssignee({uid:uid, username:username});
+        setRotate(false);
+    }
 
     const handleSave = () => {
         const thisDate = dueDate;
@@ -49,10 +64,12 @@ const AddChore = ({uid, username}) => {
                 uid: assignee.uid === "random" ? group.members[Math.floor(Math.random() * group.members.length)].uid : assignee.uid,
                 dueDate: thisDate.toString(),
                 recursion,
-                status: 'incomplete'
+                status: 'incomplete',
+                rotate
             })
             .catch(error => alert(error));
         setOpen(false);
+        resetFields();
     };
 
     useEffect(() => {
@@ -81,23 +98,6 @@ const AddChore = ({uid, username}) => {
                                    value={name}
                                    onChange={(ev) => setName(ev.target.value)}
                         />
-                        <div>
-                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                                <KeyboardDatePicker
-                                    disableToolbar
-                                    variant="inline"
-                                    format="MM/dd/yyyy"
-                                    margin="normal"
-                                    id="date-picker-inline"
-                                    label="Due date"
-                                    value={dueDate}
-                                    onChange={setDueDate}
-                                    KeyboardButtonProps={{
-                                        'aria-label': 'change date',
-                                    }}
-                                />
-                            </MuiPickersUtilsProvider>
-                        </div>
                         <div className="input-item">
                             <TextField select
                                        label="Group"
@@ -120,6 +120,33 @@ const AddChore = ({uid, username}) => {
                             </TextField>
                         </div>
                         <div>
+                            <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                <KeyboardDatePicker
+                                    disableToolbar
+                                    variant="inline"
+                                    format="MM/dd/yyyy"
+                                    margin="normal"
+                                    id="date-picker-inline"
+                                    label="Due date"
+                                    value={dueDate}
+                                    onChange={setDueDate}
+                                    KeyboardButtonProps={{
+                                        'aria-label': 'change date',
+                                    }}
+                                />
+                            </MuiPickersUtilsProvider>
+                        </div>
+                        <div>
+                            <TextField select
+                                       label="Repeats?"
+                                       id="recursion"
+                                       value={recursion}
+                                       onChange={(ev) => setRecursion(ev.target.value)}
+                            >
+                                {recursionTypes.map(rtype => (<MenuItem key={rtype} value={rtype}>{rtype}</MenuItem>))}
+                            </TextField>
+                        </div>
+                        <div>
                             <TextField select
                                        label="Assignee"
                                        id="assignee"
@@ -129,13 +156,16 @@ const AddChore = ({uid, username}) => {
                                        }}
                                        onChange={(ev) => setAssignee(ev.target.value)}
                             >
+                                {group.gid === 'personal' ? <div style={{display: 'none'}}/> :
                                 <MenuItem key="random" value = {
                                     (
                                        {
                                            username: "Random",
                                            uid: "random"
                                         }
-                                    )}>Random</MenuItem>
+                                    )}>
+                                        Random
+                                </MenuItem>}
                                 {
                                     group.members ?
                                     group.members.map(member => (
@@ -144,6 +174,14 @@ const AddChore = ({uid, username}) => {
 
                                 }
                             </TextField>
+                            {recursion !== 'none' && group.gid !== 'personal' ? 
+                            <FormGroup>
+                                <FormControlLabel 
+                                control={<Checkbox checked={rotate} onChange={() => setRotate(!rotate)} />}
+                                label="Rotate between group members?" />
+                            </FormGroup>
+                            : <div/>
+                            }                
                         </div>
                     </div>
                 </DialogContent>
@@ -159,5 +197,6 @@ const AddChore = ({uid, username}) => {
         </div>
     );
 };
+
 
 export default AddChore;

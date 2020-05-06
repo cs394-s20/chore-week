@@ -1,20 +1,10 @@
 const addChores = (uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.uid === uid)
-        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
-            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted};
+        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete', rotate}]) => {
+            return {cid, gid, groupName: gidToGroupName(data, gid), uid, name, dueDate: new Date(dueDate), dateCompleted, recursion, status, isDone: !!dateCompleted, rotate};
         })
         .reduce((acc, chore, i) => {
-            if (chore.dateCompleted) {
-                var today = new Date()
-                var dc1 = Date.parse(chore.dateCompleted)
-                var dc = new Date(dc1)
-                var dif = Math.floor((Date.UTC(dc.getUTCFullYear(), dc.getMonth(), dc.getDate()) - Date.UTC(today.getUTCFullYear(), today.getMonth(), today.getDate())) / (1000 * 60 * 60 * 24));
-                if (dif <= -7) {
-                    acc['goodbye'].push(chore);
-                    return acc;
-                }
-            }
             if(chore.status==='complete') {
                 acc['done'].push(chore);
                 return acc;
@@ -32,7 +22,7 @@ const addChoresByGroup = (gid, uid, data) => {
     return Object.entries(data.chores)
         .filter(([cid, chore]) => chore.gid === gid && (chore.status === 'pending' || chore.status === 'incomplete') &&
             chore.uid !== uid)
-        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete'}]) => {
+        .map(([cid, {gid, uid, name, dueDate, dateCompleted, recursion, status='incomplete', rotate}]) => {
             return {
                 cid,
                 gid,
@@ -44,7 +34,8 @@ const addChoresByGroup = (gid, uid, data) => {
                 dateCompleted,
                 recursion,
                 status,
-                isDone: !!dateCompleted
+                isDone: !!dateCompleted,
+                rotate
             };
         });
 };

@@ -21,7 +21,6 @@ const SignInPage = () => {
                         email: result.user.email
                     })
                     .catch(error => alert(error));
-
                 return false;
             }
         }

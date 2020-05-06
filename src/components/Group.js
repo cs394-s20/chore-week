@@ -19,8 +19,8 @@ const db = firebase.database().ref();
 const Group = ({uid, group}) => {
     const [chores, setChores] = useState([]);
 
-    const handleMarkCompleted = (cid) => {
-        db.child('chores').child(cid)
+    const handleMarkCompleted = (chore) => {
+        db.child('chores').child(chore.cid)
             .update({
                 status: 'complete'
             })
@@ -67,7 +67,7 @@ const Group = ({uid, group}) => {
                                                     startIcon={<CheckCircleOutlineIcon />}
                                                     onClick={(ev) => {
                                                         ev.preventDefault();
-                                                        handleMarkCompleted(chore.cid);
+                                                        handleMarkCompleted(chore);
                                                     }} >
                                                 Confirm
                                             </Button>
